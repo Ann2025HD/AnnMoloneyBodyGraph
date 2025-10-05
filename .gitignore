@@ -6,6 +6,7 @@
 
 # Ignore bundler config.
 /.bundle
+/vendor/bundle
 
 # Ignore all environment files.
 /.env*
@@ -28,7 +29,22 @@
 !/tmp/storage/
 !/tmp/storage/.keep
 
+# OS & editor noise
+.DS_Store
+*.swp
+*.swo
+
+# Coverage & caches
+/coverage
+/.sass-cache
+
 /public/assets
+public/packs
+
+# Node & yarn
+/node_modules
+/.yarn-cache
+.yarn-integrity
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
