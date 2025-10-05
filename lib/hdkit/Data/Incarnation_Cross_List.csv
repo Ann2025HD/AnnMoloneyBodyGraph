@@ -1,0 +1,193 @@
+﻿angle,g1,g2,g3,g4,description
+Right,1,2,7,13,The Right Angle Cross of the Sphinx 4
+Juxtaposition,1,2,4,49,The Juxtaposition Cross of Self-Expression
+Left,1,2,4,49,The Left Angle Cross of Defiance 2
+Right,2,1,13,7,The Right Angle Cross of the Sphinx 2
+Juxtaposition,2,1,49,4,The Juxtaposition Cross of the Driver
+Left,2,1,49,4,The Left Angle Cross of Defiance
+Right,3,50,60,56,The Right Angle Cross of Laws
+Juxtaposition,3,50,41,31,The Juxtaposition Cross of Mutation
+Left,3,50,41,31,The Left Angle Cross of Wishes
+Right,4,49,23,43,The Right Angle Cross of Explanation 3
+Juxtaposition,4,49,8,14,The Juxtaposition Cross of Formulization
+Left,4,49,8,14,The Left Angle Cross of Revolution 2
+Right,5,35,64,63,The Right Angle Cross of Consciousness 4
+Juxtaposition,5,35,47,22,The Juxtaposition Cross of Habits
+Left,5,35,47,22,The Left Angle Cross of Separation 2
+Right,6,36,12,11,The Right Angle Cross of Eden 3
+Juxtaposition,6,36,15,10,The Juxtaposition Cross of Conflict
+Left,6,36,15,10,The Left Angle Cross of the Plane 2
+Right,7,13,2,1,The Right Angle Cross of the Sphinx 3
+Juxtaposition,7,13,23,43,The Juxtaposition Cross of Interaction
+Left,7,13,23,43,The Left Angle Cross of Masks 2
+Right,8,14,30,29,The Right Angle Cross of Contagion 2
+Juxtaposition,8,14,55,59,The Juxtaposition Cross of Contribution
+Left,8,14,55,59,The Left Angle Cross of Uncertainty
+Right,9,16,40,37,The Right Angle Cross of Planning 4
+Juxtaposition,9,16,64,63,The Juxtaposition Cross of Focus
+Left,9,16,64,63,The Left Angle Cross of Identification 2
+Right,10,15,46,25,The Right Angle Cross of Vessel of Love 4
+Juxtaposition,10,15,18,17,The Juxtaposition Cross of Behavior
+Left,10,15,18,17,The Left Angle Cross of Prevention 2
+Right,11,12,6,36,The Right Angle Cross of Eden 4
+Juxtaposition,11,12,46,25,The Juxtaposition Cross of Ideas
+Left,11,12,46,25,The Left Angle Cross of Education 2
+Right,12,11,36,6,The Right Angle Cross of Eden 2
+Juxtaposition,12,11,25,46,The Juxtaposition Cross of Articulation
+Left,12,11,25,46,The Left Angle Cross of Education
+Right,13,7,1,2,The Right Angle Cross of the Sphinx
+Juxtaposition,13,7,43,23,The Juxtaposition Cross of Listening
+Left,13,7,43,23,The Left Angle Cross of Masks
+Right,14,8,29,30,The Right Angle Cross of Contagion 4
+Juxtaposition,14,8,59,55,The Juxtaposition Cross of Empowering
+Left,14,8,59,55,The Left Angle Cross of Uncertainty 2
+Right,15,10,25,46,The Right Angle Cross of the Vessel of Love 2
+Juxtaposition,15,10,17,18,The Juxtaposition Cross of Extremes
+Left,15,10,17,18,The Left Angle Cross of Prevention
+Right,16,9,37,40,The Right Angle Cross of Planning 2
+Juxtaposition,16,9,63,64,The Juxtaposition Cross of Experimentation
+Left,16,9,63,64,The Left Angle Cross of Identification
+Right,17,18,58,52,The Right Angle Cross of Service
+Juxtaposition,17,18,38,39,The Juxtaposition Cross of Opinions
+Left,17,18,38,39,The Left Angle Cross of Upheaval
+Right,18,17,52,58,The Right Angle Cross of Service 3
+Juxtaposition,18,17,39,38,The Juxtaposition Cross of Correction
+Left,18,17,39,38,The Left Angle Cross of Upheaval 2
+Right,19,33,44,24,The Right Angle Cross of the Four Ways 4
+Juxtaposition,19,33,1,2,The Juxtaposition Cross of Need
+Left,19,33,1,2,The Left Angle Cross of Refinement 2
+Right,20,34,55,59,The Right Angle Cross of the Sleeping Phoenix 2
+Juxtaposition,20,34,37,40,The Juxtaposition Cross of the Now
+Left,20,34,37,40,The Left Angle Cross of Duality
+Right,21,48,38,39,The Right Angle Cross of Tension
+Juxtaposition,21,48,54,53,The Juxtaposition Cross of Control
+Left,21,48,54,53,The Left Angle Cross of Endeavour
+Right,22,47,26,45,The Right Angle Cross of Rulership
+Juxtaposition,22,47,11,12,The Juxtaposition Cross of Grace
+Left,22,47,11,12,The Left Angle Cross of Informing
+Right,23,43,49,4,The Right Angle Cross of Explanation 2
+Juxtaposition,23,43,30,29,The Juxtaposition Cross of Assimilation
+Left,23,43,30,29,The Left Angle Cross of Dedication
+Right,24,44,19,33,The Right Angle Cross of the Four Ways
+Juxtaposition,24,44,13,7,The Juxtaposition Cross of Rationalization
+Left,24,44,13,7,The Left Angle Cross of Incarnation
+Right,25,46,10,15,The Right Angle Cross of the Vessel of Love
+Juxtaposition,25,46,58,52,The Juxtaposition Cross of Innocence
+Left,25,46,58,52,The Left Angle Cross of Healing
+Right,26,45,47,22,The Right Angle Cross of Rulership 4
+Juxtaposition,26,45,6,36,The Juxtaposition Cross of the Trickster
+Left,26,45,6,36,The Left Angle Cross of Confrontation 2
+Right,27,28,41,31,The Right Angle Cross of the Unexpected
+Juxtaposition,27,28,19,33,The Juxtaposition Cross of Caring
+Left,27,28,19,33,The Left Angle Cross of Alignment
+Right,28,27,31,41,The Right Angle Cross of the Unexpected 3
+Juxtaposition,28,27,33,19,The Juxtaposition Cross of Risks
+Left,28,27,33,19,The Left Angle Cross of Alignment 2
+Right,29,30,8,14,The Right Angle Cross of Contagion 3
+Juxtaposition,29,30,20,34,The Juxtaposition Cross of Commitment
+Left,29,30,20,34,The Left Angle Cross of Industry 2
+Right,30,29,14,8,The Right Angle Cross of Contagion
+Juxtaposition,30,29,34,20,The Juxtaposition Cross of Fates
+Left,30,29,34,20,The Left Angle Cross of Industry
+Right,31,41,27,28,The Right Angle Cross of the Unexpected 2
+Juxtaposition,31,41,24,44,The Juxtaposition Cross of Influence
+Left,31,41,24,44,The Left Angle Cross of the Alpha
+Right,32,42,62,61,The Right Angle Cross of Maya 3
+Juxtaposition,32,42,56,60,The Juxtaposition Cross of Conservation
+Left,32,42,56,60,The Left Angle Cross of Limitation 2
+Right,33,19,24,44,The Right Angle Cross of the Four Ways 2
+Juxtaposition,33,19,2,1,The Juxtaposition Cross of Retreat
+Left,33,19,2,1,The Left Angle Cross of Refinement
+Right,34,20,59,55,The Right Angle Cross of the Sleeping Phoenix 4
+Juxtaposition,34,20,40,37,The Juxtaposition Cross of Power
+Left,34,20,40,37,The Left Angle Cross of Duality 2
+Right,35,5,63,64,The Right Angle Cross of Consciousness 2
+Juxtaposition,35,5,22,47,The Juxtaposition Cross of Experience
+Left,35,5,22,47,The Left Angle Cross of Separation
+Right,36,6,11,12,The Right Angle Cross of the Eden
+Juxtaposition,36,6,10,15,The Juxtaposition Cross of Crisis
+Left,36,6,10,15,The Left Angle Cross of the Plane
+Right,37,40,9,16,The Right Angle Cross of Planning
+Juxtaposition,37,40,5,35,The Juxtaposition Cross of Bargains
+Left,37,40,5,35,The Left Angle Cross of Migration
+Right,38,39,48,21,The Right Angle Cross of Tension 4
+Juxtaposition,38,39,57,51,The Juxtaposition Cross of Opposition
+Left,38,39,57,51,The Left Angle Cross of Individualism 2
+Right,39,38,21,48,The Right Angle Cross of Tension 2
+Juxtaposition,39,38,51,57,The Juxtaposition Cross of Provocation
+Left,39,38,51,57,The Left Angle Cross of Individualism
+Right,40,37,16,9,The Right Angle Cross of Planning 3
+Juxtaposition,40,37,35,5,The Juxtaposition Cross of Denial
+Left,40,37,35,5,The Left Angle Cross of Migration 2
+Right,41,31,28,27,The Right Angle Cross of the Unexpected 4
+Juxtaposition,41,31,44,24,The Juxtaposition Cross of Fantasy
+Left,41,31,44,24,The Left Angle Cross of the Alpha 2
+Right,42,32,61,62,The Right Angle Cross of Maya
+Juxtaposition,42,32,60,56,The Juxtaposition Cross of Completion
+Left,42,32,60,56,The Left Angle Cross of Limitation
+Right,43,23,4,49,The Right Angle Cross of Explanation 4
+Juxtaposition,43,23,29,30,The Juxtaposition Cross of Insight
+Left,43,23,29,30,The Left Angle Cross of Dedication 2
+Right,44,24,33,19,The Right Angle Cross of the Four Ways 3
+Juxtaposition,44,24,7,13,The Juxtaposition Cross of Alertness
+Left,44,24,7,13,The Left Angle Cross of Incarnation 2
+Right,45,26,22,47,The Right Angle Cross of Rulership 2
+Juxtaposition,45,26,36,6,The Juxtaposition Cross of Possession
+Left,45,26,36,6,The Left Angle Cross of Confrontation
+Right,46,25,15,10,The Right Angle Cross of the Vessel of Love 3
+Juxtaposition,46,25,52,58,The Juxtaposition Cross of Serendipity
+Left,46,25,52,58,The Left Angle Cross of Healing 2
+Right,47,22,45,26,The Right Angle Cross of Rulership 3
+Juxtaposition,47,22,12,11,The Juxtaposition Cross of Oppression
+Left,47,22,12,11,The Left Angle Cross of Informing 2
+Right,48,21,39,38,The Right Angle Cross of Tension 3
+Juxtaposition,48,21,53,54,The Juxtaposition Cross of Depth
+Left,48,21,53,54,The Left Angle Cross of Endeavour 2
+Right,49,4,43,23,The Right Angle Cross of Explanation
+Juxtaposition,49,4,14,8,The Juxtaposition Cross of Principles
+Left,49,4,14,8,The Left Angle Cross of Revolution
+Right,50,3,56,60,The Right Angle Cross of Laws 3
+Juxtaposition,50,3,31,41,The Juxtaposition Cross of Values
+Left,50,3,31,41,The Left Angle Cross of Wishes 2
+Right,51,57,54,53,The Right Angle Cross of Penetration
+Juxtaposition,51,57,61,62,The Juxtaposition Cross of Shock
+Left,51,57,61,62,The Left Angle Cross of the Clarion
+Right,52,58,17,18,The Right Angle Cross of Service 2
+Juxtaposition,52,58,21,48,The Juxtaposition Cross of Stillness
+Left,52,58,21,48,The Left Angle Cross of Demands
+Right,53,54,51,57,The Right Angle Cross of Penetration 2
+Juxtaposition,53,54,42,32,The Juxtaposition Cross of Beginnings
+Left,53,54,42,32,The Left Angle Cross of Cycles
+Right,54,53,57,51,The Right Angle Cross of Penetration 4
+Juxtaposition,54,53,32,42,The Juxtaposition Cross of Ambition
+Left,54,53,32,42,The Left Angle Cross of Cycles 2
+Right,55,59,34,20,The Right Angle Cross of the Sleeping Phoenix
+Juxtaposition,55,59,9,16,The Juxtaposition Cross of Moods
+Left,55,59,9,16,The Left Angle Cross of Spirit
+Right,56,60,3,50,The Right Angle Cross of Laws 2
+Juxtaposition,56,60,27,28,The Juxtaposition Cross of Stimulation
+Left,56,60,27,28,The Left Angle Cross of Distraction
+Right,57,51,53,54,The Right Angle Cross of Penetration 3
+Juxtaposition,57,51,62,61,The Juxtaposition Cross of Intuition
+Left,57,51,62,61,The Left Angle Cross of the Clarion 2
+Right,58,52,18,17,The Right Angle Cross of Service 4
+Juxtaposition,58,52,48,21,The Juxtaposition Cross of Vitality
+Left,58,52,48,21,The Left Angle Cross of Demands 2
+Right,59,55,20,34,The Right Angle Cross of the Sleeping Phoenix 3
+Juxtaposition,59,55,16,9,The Juxtaposition Cross of Strategy
+Left,59,55,16,9,The Left Angle Cross of Spirit 2
+Right,60,56,50,3,The Right Angle Cross of Laws 4
+Juxtaposition,60,56,28,27,The Juxtaposition Cross of Limitation
+Left,60,56,28,27,The Left Angle Cross of Distraction 2
+Right,61,62,32,42,The Right Angle Cross of Maya 4
+Juxtaposition,61,62,50,3,The Juxtaposition Cross of Thinking
+Left,61,62,50,3,The Left Angle Cross of Obscuration 2
+Right,62,61,42,32,The Right Angle Cross of Maya 2
+Juxtaposition,62,61,3,50,The Juxtaposition Cross of Detail
+Left,62,61,3,50,The Left Angle Cross of Obscuration
+Right,63,64,5,35,The Right Angle Cross of Consciousness
+Juxtaposition,63,64,26,45,The Juxtaposition Cross of Doubts
+Left,63,64,26,45,The Left Angle Cross of Dominion
+Right,64,63,35,5,The Right Angle Cross of Consciousness 3
+Juxtaposition,64,63,45,26,The Juxtaposition Cross of Confusion
+Left,64,63,45,26,The Left Angle Cross of Dominion 2

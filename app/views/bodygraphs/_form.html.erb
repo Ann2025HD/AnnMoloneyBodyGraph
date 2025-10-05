@@ -1,0 +1,171 @@
+<%# app/views/bodygraphs/_form.html.erb %>
+
+<div class="chart-form" style="background:#fff;">
+  <%# --- Friendly validation message (if any) --- %>
+  <% if flash[:alert].present? %>
+    <p class="alert"><%= flash[:alert] %></p>
+  <% end %>
+
+  <%= form_with url: charts_path,
+                method: :post,
+                local: true,
+                data: { turbo: false },
+                html: { novalidate: true, autocomplete: "off", target: "_blank" } do |f| %>
+
+    <%# NAME (full width) %>
+    <div class="field">
+      <label for="name">Name</label>
+      <%= f.text_field :name, id: "name", placeholder: "Name", required: true, autocomplete: "name" %>
+    </div>
+
+    <%# DATE + TIME (same row) %>
+    <div class="row">
+      <div class="field">
+        <label for="date">Date of birth</label>
+        <%= f.text_field :date,
+              id: "date",
+              placeholder: "dd/mm/yyyy",
+              inputmode: "numeric",
+              autocomplete: "off",
+              class: "w-full",
+              required: true %>
+        <%= hidden_field_tag :date_iso, "", id: "date_iso" %>
+      </div>
+
+      <div class="field">
+        <label for="time">Time of birth <span class="muted">(optional)</span></label>
+        <%= f.time_field :time, id: "time", step: 60, placeholder: "HH:MM" %>
+      </div>
+    </div>
+
+    <%# LOCATION (single field) %>
+    <div class="field">
+      <label for="location">Location</label>
+      <%= text_field_tag :location, nil,
+            id: "location",
+            placeholder: "Start typing a city…",
+            novalidate: true,
+            autocomplete: "off",
+            required: true %>
+    </div>
+
+    <%# Optional hidden fields if using Google Places %>
+    <%= hidden_field_tag :place_id,   "", id: "place_id"   %>
+    <%= hidden_field_tag :place_text, "", id: "place_text" %>
+    <%= hidden_field_tag :lat,        "", id: "lat"        %>
+    <%= hidden_field_tag :lng,        "", id: "lng"        %>
+
+    <%# SUBMIT BUTTON %>
+    <div style="text-align: center; margin-top: 1.5rem;">
+      <%= f.submit "VIEW YOUR CHART", class: "btn-primary" %>
+    </div>
+  <% end %>
+</div>
+
+<%# -------------------------------
+     Minimal scripts for UX
+     - DD/MM/YYYY mask + hidden ISO
+     - Google Places (optional)
+   -------------------------------- %>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  // ---- DATE (DD / MM / YYYY) ----
+  const dateInput  = document.getElementById("date");
+  const isoHidden  = document.getElementById("date_iso");
+  const form       = dateInput ? dateInput.closest("form") : null;
+
+  if (dateInput) {
+    // Input mask
+    dateInput.addEventListener("input", function () {
+      let v = this.value.replace(/\D/g, "").slice(0, 8); // digits only
+      let out = "";
+      if (v.length >= 2) out = v.slice(0,2) + " / ";
+      else out = v;
+      if (v.length >= 4) out += v.slice(2,4) + " / " + v.slice(4);
+      else if (v.length > 2) out += v.slice(2);
+      this.value = out;
+    });
+
+    // Smooth backspace over " / "
+    dateInput.addEventListener("keydown", function (e) {
+      if (e.key === "Backspace") {
+        const v = this.value;
+        const pos = this.selectionStart;
+        // if caret is right after the space in " / ", delete the whole separator
+        if (pos >= 3 && v.slice(pos - 3, pos) === " /") {
+          this.value = v.slice(0, pos - 3) + v.slice(pos);
+          this.setSelectionRange(pos - 3, pos - 3);
+          e.preventDefault();
+        }
+      }
+    });
+  }
+
+  if (form && dateInput) {
+    form.addEventListener("submit", function () {
+      if (!isoHidden) return;
+      const raw = dateInput.value.replace(/\s/g, "");
+      const parts = raw.split("/");
+      if (parts.length === 3) {
+        const [dd, mm, yyyy] = parts;
+        if (yyyy && mm && dd) {
+          const pad = n => String(n).padStart(2, "0");
+          isoHidden.value = `${yyyy}-${pad(mm)}-${pad(dd)}`;
+        }
+      }
+    });
+  }
+
+  // ---- TIME (HH:MM) ----
+  const timeInput = document.getElementById("time");
+  if (timeInput) {
+    timeInput.addEventListener("input", function () {
+      let v = this.value.replace(/\D/g, "").slice(0, 4); // HHMM
+      this.value = (v.length >= 3) ? v.slice(0,2) + ":" + v.slice(2) : v;
+    });
+
+    // Smooth backspace over ":"
+    timeInput.addEventListener("keydown", function (e) {
+      if (e.key === "Backspace") {
+        const v = this.value;
+        const pos = this.selectionStart;
+        if (pos > 0 && v[pos - 1] === ":") {
+          this.value = v.slice(0, pos - 1) + v.slice(pos);
+          this.setSelectionRange(pos - 1, pos - 1);
+          e.preventDefault();
+        }
+      }
+    });
+  }
+});
+</script>
+ S
+
+<script>
+  // Optional: Google Places Autocomplete for a single "Location" field
+  window.initPlaces = function () {
+    const el = document.getElementById("location");
+    if (!el || !window.google || !google.maps?.places) return;
+
+    const ac = new google.maps.places.Autocomplete(el, {
+      types: ["(cities)"],
+      fields: ["place_id","formatted_address","geometry"]
+    });
+
+    ac.addListener("place_changed", () => {
+      const p = ac.getPlace();
+      document.getElementById("place_id").value   = p.place_id || "";
+      document.getElementById("place_text").value = p.formatted_address || el.value;
+      document.getElementById("lat").value        = p.geometry?.location?.lat?.() ?? "";
+      document.getElementById("lng").value        = p.geometry?.location?.lng?.() ?? "";
+    });
+  };
+
+  document.addEventListener("turbo:load", () => {
+    if (window.google?.maps?.places) window.initPlaces();
+  });
+</script>
+
+<script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDX-6GcsTDXLELfqR3rOLrvZdYrJWGG_As&libraries=places&callback=initPlaces">
+</script>

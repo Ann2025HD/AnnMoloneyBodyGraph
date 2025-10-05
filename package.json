@@ -1,0 +1,21 @@
+{
+  "name": "hdkit_sample_app",
+  "version": "1.0.0",
+  "description": "This is a sample application for **HDKit**, a toolkit for generating Human Design bodygraphs and doing other Human Design-related calculations.",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "luxon": "^3.7.2",
+    "swisseph": "^0.5.17"
+  }
+}

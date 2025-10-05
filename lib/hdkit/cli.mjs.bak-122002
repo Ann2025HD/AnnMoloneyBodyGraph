@@ -1,0 +1,315 @@
+#!/usr/bin/env node
+// Real ephemeris → Gate.Line → channels/centers → SVG
+
+import { DateTime } from "luxon";
+import swe from "swisseph";
+
+// ---------- args ----------
+const args = Object.fromEntries(
+  process.argv.slice(2).map(tok => {
+    const m = tok.match(/^--([^=]+)=(.*)$/);
+    return m ? [m[1], m[2]] : [tok.replace(/^-+/, ""), true];
+  })
+);
+const name  = args.name  || "Test";
+const date  = args.date  || "";
+const time  = args.time  || "12:00";
+const place = args.place || "";
+const tz    = args.tz    || "Europe/Dublin"; // temporary default
+
+// ---------- constants ----------
+const DEG_PER_GATE = 360 / 64;
+const START_DEG = 302.0; // align Gate 41 to ~302° (≈ 2° Aquarius)
+const GATE_ORDER = [
+  41,19,13,49,30,55,37,63,22,36,25,17,21,51,42,3,
+  27,24,2,23,8,20,16,35,45,12,15,52,39,53,62,56,
+  31,33,7,4,29,59,40,64,47,6,46,18,48,57,32,50,
+  28,44,1,43,14,34,9,5,26,11,10,58,38,54,61,60
+];
+const CHANNELS = [
+  { key:"20-34", gates:[20,34], centers:["Throat","Sacral"] },
+  { key:"20-57", gates:[20,57], centers:["Throat","Spleen"] },
+  { key:"20-10", gates:[20,10], centers:["Throat","G"] },
+  { key:"20-43", gates:[20,43], centers:["Throat","Ajna"] },
+  { key:"62-17", gates:[62,17], centers:["Throat","Ajna"] },
+  { key:"12-22", gates:[12,22], centers:["Throat","SolarPlexus"] },
+  { key:"31-7",  gates:[31,7],  centers:["Throat","G"] },
+  { key:"45-21", gates:[45,21], centers:["Throat","Ego"] },
+  { key:"10-57", gates:[10,57], centers:["G","Spleen"] },
+  { key:"10-34", gates:[10,34], centers:["G","Sacral"] },
+  { key:"1-8",   gates:[1,8],   centers:["G","Throat"] },
+  { key:"25-51", gates:[25,51], centers:["G","Ego"] },
+  { key:"59-6",  gates:[59,6],  centers:["Sacral","SolarPlexus"] },
+  { key:"9-52",  gates:[9,52],  centers:["Sacral","Root"] },
+  { key:"3-60",  gates:[3,60],  centers:["Sacral","Root"] },
+  { key:"27-50", gates:[27,50], centers:["Sacral","Spleen"] },
+  { key:"29-46", gates:[29,46], centers:["Sacral","G"] },
+  { key:"5-15",  gates:[5,15],  centers:["Sacral","G"] },
+  { key:"2-14",  gates:[2,14],  centers:["G","Sacral"] },
+  { key:"41-30", gates:[41,30], centers:["Root","SolarPlexus"] },
+  { key:"36-35", gates:[36,35], centers:["SolarPlexus","Throat"] },
+  { key:"63-4",  gates:[63,4],  centers:["Head","Ajna"] },
+  { key:"64-47", gates:[64,47], centers:["Head","Ajna"] },
+  { key:"56-11", gates:[56,11], centers:["Throat","Ajna"] },
+];
+
+// ---------- time → Julian Day ----------
+function toJulianDay(dateISO, timeHHMM, zone) {
+  const dt = DateTime.fromISO(`${dateISO}T${timeHHMM}`, { zone });
+  if (!dt.isValid) throw new Error("Invalid date/time");
+  const u = dt.toUTC();
+  const ut = u.hour + u.minute/60 + u.second/3600;
+  return swe.swe_julday(u.year, u.month, u.day, ut, swe.SE_GREG_CAL);
+}
+
+// ---------- Swiss Ephemeris (Moshier: no eph files needed) ----------
+function calcLon(jd, planet) {
+  return new Promise((resolve, reject) => {
+    swe.swe_calc_ut(jd, planet, swe.SEFLG_MOSEPH, (res) => {
+      if (res.error) return reject(new Error(res.error));
+      resolve((res.longitude % 360 + 360) % 360);
+    });
+  });
+}
+const PLANETS = [
+  ["Sun",      swe.SE_SUN],
+  ["Moon",     swe.SE_MOON],
+  ["Mercury",  swe.SE_MERCURY],
+  ["Venus",    swe.SE_VENUS],
+  ["Mars",     swe.SE_MARS],
+  ["Jupiter",  swe.SE_JUPITER],
+  ["Saturn",   swe.SE_SATURN],
+  ["Uranus",   swe.SE_URANUS],
+  ["Neptune",  swe.SE_NEPTUNE],
+  ["Pluto",    swe.SE_PLUTO],
+];
+
+// ---------- longitude → Gate.Line ----------
+function gateLineFromLongitude(lon) {
+  const delta = ((lon - START_DEG) % 360 + 360) % 360;
+  const gateIdx = Math.floor(delta / DEG_PER_GATE);
+  const withinGate = delta - gateIdx * DEG_PER_GATE;
+  const line = 1 + Math.floor((withinGate / DEG_PER_GATE) * 6);
+  const gate = GATE_ORDER[gateIdx];
+  return [gate, line];
+}
+
+// ---------- channels & centers ----------
+function deriveDefinition(allGates) {
+  const has = g => allGates.includes(g);
+  const definedChannels = CHANNELS
+    .filter(ch => has(ch.gates[0]) && has(ch.gates[1]))
+    .map(ch => ch.key);
+  const definedCenters = Array.from(new Set(
+    CHANNELS.filter(ch => definedChannels.includes(ch.key)).flatMap(ch => ch.centers)
+  ));
+  return { definedChannels, definedCenters };
+}
+// ---- helpers for graph + type/authority/definition/profile ----
+const MOTORS = new Set(["Sacral","SolarPlexus","Ego","Root"]);
+
+function centerGraphFromChannels(chKeys) {
+  const idx = Object.fromEntries(CHANNELS.map(c => [c.key, c]));
+  const g = new Map();
+  function add(n){ if(!g.has(n)) g.set(n, new Set()); }
+  chKeys.forEach(k => {
+    const ch = idx[k]; if(!ch) return;
+    const [a,b] = ch.centers;
+    add(a); add(b);
+    g.get(a).add(b); g.get(b).add(a);
+  });
+  return g;
+}
+
+function components(centers, graph) {
+  const seen = new Set(), comps = [];
+  for (const c of centers) {
+    if (seen.has(c)) continue;
+    const q = [c], comp = [];
+    seen.add(c);
+    while (q.length) {
+      const x = q.shift(); comp.push(x);
+      const nbrs = graph.get(x) || new Set();
+      for (const n of nbrs) {
+        if (!seen.has(n) && centers.includes(n)) { seen.add(n); q.push(n); }
+      }
+    }
+    comps.push(comp);
+  }
+  return comps;
+}
+
+function pathExists(graph, startSet, target) {
+  const seen = new Set(startSet);
+  const q = [...startSet];
+  while (q.length) {
+    const x = q.shift();
+    if (x === target) return true;
+    const nbrs = graph.get(x) || new Set();
+    for (const n of nbrs) if (!seen.has(n)) { seen.add(n); q.push(n); }
+  }
+  return false;
+}
+
+function computeDefinitionLabel(centers, graph) {
+  if (centers.length === 0) return "None";
+  const count = components(centers, graph).length;
+  return ({1:"Single Definition",2:"Split Definition",3:"Triple Split Definition",4:"Quadruple Split Definition"}[count] || "Multiple Splits");
+}
+
+function computeTypeAuthority(centers, graph) {
+  const has = (c) => centers.includes(c);
+  const motors = centers.filter(c => MOTORS.has(c));
+  const sacralDefined = has("Sacral");
+  const motorToThroat = pathExists(graph, new Set(motors), "Throat");
+
+  // Type
+  let type;
+  if (centers.length === 0) {
+    type = "Reflector";
+  } else if (sacralDefined && motorToThroat) {
+    type = "Manifesting Generator";
+  } else if (sacralDefined) {
+    type = "Generator";
+  } else if (!sacralDefined && motorToThroat) {
+    type = "Manifestor";
+  } else {
+    type = "Projector";
+  }
+
+  // Authority (simple precedence; good enough for v1)
+  let authority;
+  if (has("SolarPlexus"))      authority = "Emotional - Solar Plexus";
+  else if (sacralDefined)      authority = "Sacral";
+  else if (has("Spleen"))      authority = "Splenic";
+  else if (has("Ego"))         authority = "Ego/Heart";
+  else if (has("G") && has("Throat")) authority = "Self-Projected";
+  else if (centers.length === 0)       authority = "Lunar";
+  else                                authority = "Environment (Mental)";
+
+  // Strategy (from type)
+  const strategy = ({
+    "Generator": "To Respond",
+    "Manifesting Generator": "To Respond",
+    "Manifestor": "To Inform",
+    "Projector": "Wait for the Invitation",
+    "Reflector": "Wait a Lunar Cycle"
+  })[type];
+
+  return { type, authority, strategy };
+}
+
+function getLine(pairs, planet) {
+  const h = Object.fromEntries(pairs);
+  const v = h[planet]; if (!v) return null;
+  const parts = String(v).split(".");
+  return parts.length === 2 ? parseInt(parts[1],10) : null;
+}
+
+// Profile = personality Sun line / design Sun line (fallback to Earth if needed)
+const persSunLine = getLine(personalityPlanets, "Sun") ?? getLine(personalityPlanets, "Earth");
+const desSunLine  = getLine(designPlanets,       "Sun") ?? getLine(designPlanets,       "Earth");
+const derivedProfile = (persSunLine && desSunLine) ? `${persSunLine}/${desSunLine}` : "TBD";
+
+// Build graph, compute labels
+const graph = centerGraphFromChannels(definedChannels);
+const definitionLabel = computeDefinitionLabel(definedCenters, graph);
+const { type, authority, strategy } = computeTypeAuthority(definedCenters, graph);
+
+// ---------- SVG + theme ----------
+const THEME = {
+  centerDefined:  "#ffd966",
+  centerOpen:     "#ffffff",
+  centerStroke:   "#555555",
+  channelActive:  "#a05000",
+  channelInactive:"#cccccc",
+  text:           "#111111",
+};
+function svgBodygraph({ definedCenters = [], definedChannels = [] } = {}) {
+  const W = 420, H = 380;
+  const centers = {
+    Head:        { x:210, y: 38, w: 46, h: 34, shape: "triangle_down" },
+    Ajna:        { x:210, y: 86, w: 76, h: 36, shape: "triangle_up"   },
+    Throat:      { x:210, y:132, w: 70, h: 34, shape: "square"        },
+    G:           { x:210, y:188, w: 76, h: 56, shape: "diamond"       },
+    Ego:         { x:262, y:188, w: 34, h: 24, shape: "triangle_right"},
+    Spleen:      { x:132, y:208, w: 46, h: 34, shape: "triangle_left" },
+    SolarPlexus: { x:288, y:226, w: 46, h: 34, shape: "triangle_right"},
+    Sacral:      { x:210, y:266, w: 84, h: 36, shape: "square"        },
+    Root:        { x:210, y:322, w:100, h: 28, shape: "square"        },
+  };
+  const channelIndex = Object.fromEntries(CHANNELS.map(c => [c.key, c]));
+  const isDef = n => definedCenters.includes(n);
+  const cFill = n => isDef(n) ? THEME.centerDefined : THEME.centerOpen;
+  const cStroke = n => THEME.centerStroke;
+  const poly = pts => `<polygon points="${pts.map(p=>p.join(",")).join(" ")}"`;
+  function drawCenter(name, c) {
+    const s = ` fill="${cFill(name)}" stroke="${cStroke(name)}" />`;
+    const {x,y,w,h,shape} = c;
+    if (shape==="square")         return `<rect x="${x-w/2}" y="${y-h/2}" width="${w}" height="${h}"${s}`;
+    if (shape==="diamond")        return `${poly([[x,y-h/2],[x+w/2,y],[x,y+h/2],[x-w/2,y]])}${s}`;
+    if (shape==="triangle_up")    return `${poly([[x,y-h/2],[x+w/2,y+h/2],[x-w/2,y+h/2]])}${s}`;
+    if (shape==="triangle_down")  return `${poly([[x-w/2,y-h/2],[x+w/2,y-h/2],[x,y+h/2]])}${s}`;
+    if (shape==="triangle_left")  return `${poly([[x-w/2,y],[x+w/2,y-h/2],[x+w/2,y+h/2]])}${s}`;
+    if (shape==="triangle_right") return `${poly([[x+w/2,y],[x-w/2,y-h/2],[x-w/2,y+h/2]])}${s}`;
+    return "";
+  }
+  function drawChannel(key){
+    const ch = channelIndex[key]; if (!ch) return "";
+    const [aName,bName] = ch.centers;
+    const a = centers[aName], b = centers[bName];
+    const active = definedChannels.includes(key);
+    const stroke = active ? THEME.channelActive : THEME.channelInactive;
+    const width  = active ? 8 : 4;
+    return `<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="${stroke}" stroke-width="${width}" stroke-linecap="round" />`;
+  }
+  const channelsSVG = Object.keys(channelIndex).map(drawChannel).join("\n");
+  const centersSVG  = Object.entries(centers).map(([n,c])=>drawCenter(n,c)).join("\n");
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+    <rect x="0" y="0" width="${W}" height="${H}" fill="#ffffff"/>
+    ${channelsSVG}
+    ${centersSVG}
+    <text x="${W/2}" y="22" font-family="Helvetica" font-size="12" text-anchor="middle" fill="${THEME.text}">Bodygraph</text>
+  </svg>`;
+}
+
+// ---------- main ----------
+async function compute() {
+  const jdP = toJulianDay(date, time, tz);      // Personality at birth
+  const jdD = jdP - 88;                         // Design ≈ 88 days earlier (refine later)
+
+  const longP = await Promise.all(PLANETS.map(([_, id]) => calcLon(jdP, id)));
+  const longD = await Promise.all(PLANETS.map(([_, id]) => calcLon(jdD, id)));
+
+  const personalityPlanets = PLANETS.map(([name], i) => {
+    const [g,l] = gateLineFromLongitude(longP[i]); return [name, `${g}.${l}`];
+  });
+  const designPlanets = PLANETS.map(([name], i) => {
+    const [g,l] = gateLineFromLongitude(longD[i]); return [name, `${g}.${l}`];
+  });
+
+  const allGates = personalityPlanets.concat(designPlanets)
+                    .map(([,gl]) => parseInt(String(gl).split(".")[0],10));
+  const { definedChannels, definedCenters } = deriveDefinition(allGates);
+
+
+const result = {
+  name, date, time, place, tz,
+  type,
+  profile:    derivedProfile,
+  definition: definitionLabel,
+  authority,
+  strategy,
+  notSelf:    ({"Generator":"Frustration","Manifesting Generator":"Frustration/Anger","Manifestor":"Anger","Projector":"Bitterness","Reflector":"Disappointment"})[type],
+  cross:      "TBD", // keep for later
+  designPlanets,
+  personalityPlanets,
+  definedChannels,
+  definedCenters,
+  svg: svgBodygraph({ definedCenters, definedChannels })
+};
+  
+
+  console.log(JSON.stringify(result));
+}
+compute().catch(e => { console.error(e); process.exit(1); });

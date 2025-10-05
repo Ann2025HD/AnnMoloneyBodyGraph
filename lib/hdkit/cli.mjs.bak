@@ -1,0 +1,65 @@
+#!/usr/bin/env node
+
+// Try to load hdkit.js (works for both ESM and CommonJS styles)
+let HD = null;
+try {
+  HD = await import("./hdkit.js");
+} catch (e) {
+  try {
+    const { createRequire } = await import("module");
+    const require = createRequire(import.meta.url);
+    HD = require("./hdkit.js");
+  } catch (e2) {
+    HD = null;
+  }
+}
+
+// Optional: list available exports if you pass --debug=1
+const args = Object.fromEntries(
+  process.argv.slice(2).map(tok => {
+    const m = tok.match(/^--([^=]+)=(.*)$/);
+    return m ? [m[1], m[2]] : [tok.replace(/^-+/, ""), true];
+  })
+);
+if (args.debug && HD) {
+  console.error("HDKIT EXPORTS:", Object.keys(HD));
+}
+
+
+const args = Object.fromEntries(
+  process.argv.slice(2).map(tok => {
+    const m = tok.match(/^--([^=]+)=(.*)$/);
+    return m ? [m[1], m[2]] : [tok.replace(/^-+/, ""), true];
+  })
+);
+
+const date  = args.date  || "";
+const time  = args.time  || "";
+const place = args.place || "";
+
+const result = {
+  type: "Generator (CLI)",
+  profile: "3/5",
+  definition: "Single Definition",
+  authority: "Emotional - Solar Plexus",
+  strategy: "To Respond",
+  notSelf: "Frustration",
+  cross: "Left Angle Cross of Individualism (38/39 | 57/51)",
+  designPlanets: [
+    ["Sun","57.2"], ["Earth","51.2"], ["Moon","30.4"],
+    ["North Node","18.6"], ["South Node","14.1"],
+    ["Mercury","99.9"], ["Venus","55.4"], ["Mars","41.3"],
+    ["Jupiter","59.4"], ["Saturn","44.5"], ["Uranus","40.6"], ["Neptune","22.1"],
+    ["Pluto","32.5"]
+  ],
+  personalityPlanets: [
+    ["Sun","38.6"], ["Earth","39.6"], ["Moon","56.4"],
+    ["North Node","60.4"], ["South Node","41.2"],
+    ["Mercury","14.5"], ["Venus","4.6"], ["Mars","37.5"],
+    ["Jupiter","19.3"], ["Saturn","59.6"], ["Uranus","1.3"], ["Neptune","64.1"],
+    ["Pluto","26.4"]
+  ],
+  svg: "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"420\" height=\"380\" viewBox=\"0 0 420 380\"><rect x=\"1\" y=\"1\" width=\"418\" height=\"378\" fill=\"white\" stroke=\"#cccccc\" /><text x=\"210\" y=\"24\" font-family=\"Helvetica\" font-size=\"14\" text-anchor=\"middle\">Bodygraph Placeholder</text></svg>"
+};
+
+console.log(JSON.stringify(result));

@@ -1,0 +1,124 @@
+NODES P  mean: {
+  "north": 167.64893514449966,
+  "south": 347.64893514449966,
+  "north_gl": "47.3",
+  "south_gl": "22.3"
+}
+NODES P  true: {
+  "north": 166.0405189102196,
+  "south": 346.0405189102196,
+  "north_gl": "47.2",
+  "south_gl": "22.2"
+}
+NODES D  mean: {
+  "north": 172.5109242475378,
+  "south": 352.5109242475378,
+  "north_gl": "6.3",
+  "south_gl": "36.3"
+}
+NODES D  true: {
+  "north": 173.90372726086377,
+  "south": 353.9037272608638,
+  "north_gl": "6.4",
+  "south_gl": "36.4"
+}
+MANDALA CHECK from 300°:
+lon 300.000 → 41.1
+lon 305.625 → 19.1
+lon 311.250 → 13.1
+lon 316.875 → 49.1
+lon 322.500 → 30.1
+lon 328.125 → 55.1
+NODES P  mean: {
+  "north": 167.64893514449966,
+  "south": 347.64893514449966,
+  "north_gl": "47.1",
+  "south_gl": "22.1"
+}
+NODES P  true: {
+  "north": 166.0405189102196,
+  "south": 346.0405189102196,
+  "north_gl": "64.5",
+  "south_gl": "63.5"
+}
+NODES D  mean: {
+  "north": 172.5109242475378,
+  "south": 352.5109242475378,
+  "north_gl": "47.6",
+  "south_gl": "22.6"
+}
+NODES D  true: {
+  "north": 173.90372726086377,
+  "south": 353.9037272608638,
+  "north_gl": "6.2",
+  "south_gl": "36.2"
+}
+MANDALA CHECK from 300°:
+lon 302.000 → 41.1
+lon 307.625 → 19.1
+lon 313.250 → 13.1
+lon 318.875 → 49.1
+lon 324.500 → 30.1
+lon 330.125 → 55.1
+NODES P  mean: {
+  "north": 169.5452122095104,
+  "south": 349.5452122095104,
+  "north_gl": "47.3",
+  "south_gl": "22.3"
+}
+NODES P  true: {
+  "north": 169.05666927207528,
+  "south": 349.0566692720753,
+  "north_gl": "47.3",
+  "south_gl": "22.3"
+}
+NODES D  mean: {
+  "north": 174.35501851301797,
+  "south": 354.35501851301797,
+  "north_gl": "6.2",
+  "south_gl": "36.2"
+}
+NODES D  true: {
+  "north": 174.66077761380643,
+  "south": 354.66077761380643,
+  "north_gl": "6.3",
+  "south_gl": "36.3"
+}
+MANDALA CHECK from 300°:
+lon 302.000 → 41.1
+lon 307.625 → 19.1
+lon 313.250 → 13.1
+lon 318.875 → 49.1
+lon 324.500 → 30.1
+lon 330.125 → 55.1
+NODES P  mean: {
+  "north": 169.5452122095104,
+  "south": 349.5452122095104,
+  "north_gl": "47.3",
+  "south_gl": "22.3"
+}
+NODES P  true: {
+  "north": 169.05666927207528,
+  "south": 349.0566692720753,
+  "north_gl": "47.3",
+  "south_gl": "22.3"
+}
+NODES D  mean: {
+  "north": 174.35501851301797,
+  "south": 354.35501851301797,
+  "north_gl": "6.2",
+  "south_gl": "36.2"
+}
+NODES D  true: {
+  "north": 174.66077761380643,
+  "south": 354.66077761380643,
+  "north_gl": "6.3",
+  "south_gl": "36.3"
+}
+MANDALA CHECK from 300°:
+lon 302.000 → 41.1
+lon 307.625 → 19.1
+lon 313.250 → 13.1
+lon 318.875 → 49.1
+lon 324.500 → 30.1
+lon 330.125 → 55.1

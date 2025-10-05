@@ -1,0 +1,59 @@
+/*
+ * This is a manifest file that'll be compiled into application.css.
+ *
+ * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
+ * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
+ * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
+ * depending on specificity.
+ *
+ * Consider organizing styles into separate files for maintainability.
+ */
+
+
+/*==========================================================
+  FORM STYLES — TIDY, RESPONSIVE, BRAND-FRIENDLY
+==========================================================*/
+.chart-form{max-width:640px;margin:48px auto;padding:0 16px;text-align:center}
+.chart-form h1{font-size:2rem;margin:0 0 6px}
+.chart-form .subtitle{color:#7b699c;margin:0 0 22px}
+.chart-form .alert{background:#fff3cd;color:#664d03;padding:10px 12px;border-radius:8px;margin-bottom:14px}
+
+.row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:680px){.row{grid-template-columns:1fr}}
+
+.field{margin-bottom:14px;text-align:left}
+.field label{display:block;font-weight:600;margin-bottom:6px}
+.muted{color:#6b7280;font-weight:400}
+
+.field input[type="text"],
+.field input[type="date"],
+.field input[type="time"]{
+  width:100%;padding:12px 14px;border:1px solid #e5e7eb;border-radius:12px;font-size:16px;background:#fff
+}
+.field input:focus{border-color:#95AECF;outline:none;box-shadow:0 0 0 3px rgba(149,174,207,.25)}
+
+.btn-primary{
+  background:linear-gradient(90deg,#d6b886,#c79b5c);color:#fff;
+  padding:12px 22px;border:none;border-radius:28px;font-weight:700;cursor:pointer
+}
+.helper{color:#6b7280;font-size:12px}
+.note{color:#6b7280;font-size:14px;margin:8px 0 16px}
+.pac-container {
+  z-index: 10000 !important;
+}
+/* Google Places dropdown — make it match your input size */
+.pac-container { z-index: 10000 !important; font-family: inherit; }
+
+.pac-item { 
+  font-size: 16px;        /* bump text size */
+  line-height: 1.4;
+  padding: 8px 12px;      /* more breathing room */
+}
+
+.pac-item .pac-item-query { 
+  font-size: 16px;        /* the bolded part */
+}
+
+.pac-matched { 
+  font-weight: 600;       /* optional: clearer highlight */
+}
