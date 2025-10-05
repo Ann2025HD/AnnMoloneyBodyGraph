@@ -69,4 +69,3 @@ class BodygraphsController < ApplicationController
     )
   end
 end
- S
