@@ -10,5 +10,4 @@ test:
 
 production:
   <<: *default
-  cache:
-    <<: *default
+

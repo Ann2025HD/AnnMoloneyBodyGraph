@@ -36,8 +36,4 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
   config.active_record.attributes_for_inspect = [:id]
 
-  # Disable Solid* features so no extra DB roles are created
-  config.solid_cache.enabled = false
-  config.solid_queue.enabled = false
-  config.solid_cable.enabled = false
 end
