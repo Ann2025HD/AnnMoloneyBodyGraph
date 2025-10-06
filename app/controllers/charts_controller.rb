@@ -17,11 +17,11 @@ class ChartsController < ApplicationController
   # NEW — SHOWS THE SIMPLE (NON-POPUP) FORM
   #===========================================================
   def new
-  @chart = Bodygraph.new
+  @chart = ChartForm.new
 end
 
 def edit
-  @chart = Bodygraph.find(params[:id])
+  @chart = ChartForm.find(params[:id])
 end
 
 
@@ -52,34 +52,24 @@ end
   #===========================================================
   
 def create
-  # Read flat params from the standalone form
-  name       = params[:name].to_s.strip
-  date       = (params[:date_iso].presence || params[:date].to_s.strip) # prefer ISO if set
-  time       = params[:time].to_s.strip
-  typed_loc  = params[:location].to_s.strip
-  place_id   = params[:place_id].to_s.strip
-  place_text = params[:place_text].to_s.strip
+    p = chart_params
 
-  # Presence checks
-  if name.blank? || date.blank? || typed_loc.blank?
-    flash.now[:alert] = "Please fill name, birth date, and location."
-    return render :new, status: :unprocessable_entity
+    name       = p[:name].to_s.strip
+    date       = (p[:date_iso].presence || p[:date].to_s.strip)
+    time_raw   = p[:time].to_s.strip
+    typed_loc  = p[:location].to_s.strip
+    place_text = p[:place_text].to_s.strip
+
+    if name.blank? || date.blank? || typed_loc.blank?
+      flash.now[:alert] = "Please fill name, birth date, and location."
+      return render :new, status: :unprocessable_entity
+    end
+
+    time  = normalize_time(time_raw) || "12:00"
+    place = place_text.presence || typed_loc
+
+    redirect_to chart_pdf_prawn_path(name: name, date: date, time: time, place: place)
   end
-
-  # Optional: require a suggestion from autocomplete
-  # (Uncomment if you want to force users to pick from the dropdown)
-  # if place_id.blank?
-  #   flash.now[:alert] = "Please choose a location from the suggestions."
-  #   return render :new, status: :unprocessable_entity
-  # end
-
-  # Defaults / derived values
-  time  = "12:00" if time.blank?
-  place = place_text.presence || typed_loc
-
-  # Redirect to your PDF action
-  redirect_to chart_pdf_prawn_path(name: name, date: date, time: time, place: place)
-end
 
 
 
@@ -410,16 +400,31 @@ end
               disposition: (params[:download] == "1" ? "attachment" : "inline")
   end # download_prawn
 
-  private
+ 
 
-  # Accept params whether your form fields are top-level OR scoped under :chart.
-  def chart_params
-    if params[:chart].present?
-      params.require(:chart).permit(:name, :date, :date_iso, :time,
-                                    :location, :place_id, :place_text, :lat, :lng)
-    else
-      params.permit(:name, :date, :date_iso, :time,
-                    :location, :place_id, :place_text, :lat, :lng)
-    end
+
+  # === Private helpers ===
+   private
+
+   # Strong params (unscoped form version)
+   def chart_params
+    params.permit(:name, :date, :date_iso, :time, :location, :place_id, :place_text, :lat, :lng)
+   end
+   # Normalizes "H", "HH", "HHMM", "HH:MM" -> "HH:MM" or nil
+   def normalize_time(val)
+    s = val.to_s.strip
+    return nil if s.blank?
+
+    digits = s.gsub(/\D/, "")
+    case digits.length
+    when 1 then h = digits.to_i;      m = 0
+    when 2 then h = digits.to_i;      m = 0
+    when 3 then h = digits[0,1].to_i; m = digits[1,2].to_i
+    when 4 then h = digits[0,2].to_i; m = digits[2,2].to_i
+    else return nil
+   end
+
+   return nil if h > 23 || m > 59
+   format("%02d:%02d", h, m)
   end
 end

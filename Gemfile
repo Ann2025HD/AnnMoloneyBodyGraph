@@ -69,6 +69,14 @@ group :test do
   gem "selenium-webdriver"
 end
 
+group :development, :test do
+  gem "sqlite3", ">= 2.1", "< 3.0"
+end
+
+group :production do
+  gem "activerecord-nulldb-adapter", require: "active_record/connection_adapters/nulldb_adapter"
+end
+
 gem "prawn", "~> 2.5"
 gem "prawn-svg", "~> 0.38.0"
 
