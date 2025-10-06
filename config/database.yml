@@ -1,14 +1,14 @@
+
 default: &default
-  adapter: sqlite3
-  database: db/development.sqlite3
+  adapter: nulldb
 
 development:
   <<: *default
 
 test:
   <<: *default
-  database: db/test.sqlite3
 
 production:
-  adapter: nulldb
- S
+  <<: *default
+  cache:
+    <<: *default
