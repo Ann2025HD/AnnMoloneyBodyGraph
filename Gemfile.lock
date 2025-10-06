@@ -438,7 +438,7 @@ DEPENDENCIES
   solid_cable
   solid_cache
   solid_queue
-  sqlite3 (>= 2.1, < 3.0)
+  sqlite3
   stimulus-rails
   swe4r
   thruster

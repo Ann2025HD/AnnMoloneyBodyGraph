@@ -70,11 +70,14 @@ group :test do
 end
 
 group :development, :test do
-  gem "sqlite3", ">= 2.1", "< 3.0"
+  gem "sqlite3"
+  gem "solid_cache"
+  gem "solid_queue"
+  gem "solid_cable"
 end
 
 group :production do
-  gem "activerecord-nulldb-adapter", require: "active_record/connection_adapters/nulldb_adapter"
+  gem "activerecord-nulldb-adapter"
 end
 
 gem "prawn", "~> 2.5"
