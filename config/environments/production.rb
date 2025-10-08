@@ -29,6 +29,9 @@ Rails.application.configure do
   # Mailer (set your host if you use mailers)
   config.action_mailer.default_url_options = { host: "example.com" }
 
+
+  config.action_dispatch.default_headers.delete('X-Frame-Options')
+
   # I18n
   config.i18n.fallbacks = true
 
