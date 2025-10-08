@@ -50,3 +50,13 @@ public/packs
 /config/master.key
 .DS_Store
 /config/master.key
+# editor/temp files
+*.sb-*
+.*.swp
+*~
+.DS_Store
+*.rtf
+
+# OS/IDE
+.idea/
+.vscode/
