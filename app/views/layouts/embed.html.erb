@@ -5,6 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= javascript_importmap_tags %>
+
+  <!-- Fallback initializer for Google Places (safe even if Stimulus also initializes it) -->
+  <script>
+    window.initPlaces = function () {
+      try {
+        var input =
+          document.getElementById("place_text") ||
+          document.getElementById("location") ||
+          document.querySelector('input[name="location"]');
+        if (!input || !window.google || !google.maps || !google.maps.places) return;
+        new google.maps.places.Autocomplete(input);
+      } catch (e) {}
+    };
+  </script>
+
+  <!-- Google Maps / Places (callback -> initPlaces) -->
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=<%= ENV["GOOGLE_MAPS_API_KEY"] %>&libraries=places&callback=initPlaces&loading=async"
+    async defer></script>
 
   <style>
     html, body { margin:0; padding:0; background:transparent; }
@@ -29,8 +49,13 @@
     }
 
     .row.two-col{ display:flex; gap:18px; }
-    .row.two-col .field--date{ flex:1.15 1 0; min-width:240px; }
-    .row.two-col .field--time{ flex:.85 1 0; max-width:320px; min-width:180px; }
+
+    .row.two-col .field--date,
+    .row.two-col .field--time {
+      flex: 1 1 0;
+      max-width: 320px;
+      min-width: 180px;
+    }
 
     .actions{ text-align:center; margin-top:14px; }
     .actions input[type=submit], .actions button{
@@ -54,12 +79,14 @@
     <%= yield %>
   </div>
 
+  <!-- Auto-resize the iframe on your WP page -->
   <script>
-    function sendHeight(){ var h=document.documentElement.scrollHeight; parent.postMessage({hdEmbedHeight:h},"*"); }
+    function sendHeight(){
+      var h = document.documentElement.scrollHeight;
+      parent.postMessage({ hdEmbedHeight: h }, "*");
+    }
     new ResizeObserver(sendHeight).observe(document.body);
-    window.addEventListener("load",sendHeight);
+    window.addEventListener("load", sendHeight);
   </script>
 </body>
 </html>
-
-
