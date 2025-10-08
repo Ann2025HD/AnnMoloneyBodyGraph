@@ -5,23 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     html, body { margin:0; padding:0; background:transparent; }
-    .embed-fluid {
-      box-sizing:border-box;
-      width:100%;
-      margin:0;
-      padding:0;
-      background:transparent;
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-    }
-    /* make common wrappers (if any) transparent and full width */
-    .container, .content, .page, .wrap, .main { background:transparent !important; width:100% !important; margin:0 !important; padding:0 !important; }
-    /* inputs naturally expand to parent width; ensure no fixed widths */
-    input, select, textarea { max-width:100%; }
+    .embed-fluid { box-sizing:border-box; width:100%; margin:0; padding:0; background:transparent; }
+    .container, .content, .page, .wrap, .main { width:100% !important; max-width:none !important; margin:0 !important; padding:0 !important; background:transparent !important; }
+    .chart-form { width:100%; max-width:none; margin:0; padding:0; background:transparent; }
+    .chart-form input, .chart-form select, .chart-form textarea { width:100%; box-sizing:border-box; }
+    .chart-form .row { display:flex; gap:12px; }
+    .chart-form .row .field { flex:1; min-width:0; }
   </style>
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <div class="embed-fluid"><%= yield %></div>
+  <div class="embed-fluid">
+    <%= yield %>
+  </div>
   <script>
     function sendHeight(){ var h=document.documentElement.scrollHeight; parent.postMessage({hdEmbedHeight:h},"*"); }
     new ResizeObserver(sendHeight).observe(document.body);
