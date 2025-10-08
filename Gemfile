@@ -26,7 +26,7 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
 
   # local DB for dev/test
-  gem "sqlite3", "~> 1.7"
+  gem "sqlite3", "~> 2.1"
 
   # keep Solid* only for dev/test
   gem "solid_cache"

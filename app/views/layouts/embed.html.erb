@@ -3,21 +3,57 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+
   <style>
     html, body { margin:0; padding:0; background:transparent; }
-    .embed-fluid { box-sizing:border-box; width:100%; margin:0; padding:0; background:transparent; }
-    .container, .content, .page, .wrap, .main { width:100% !important; max-width:none !important; margin:0 !important; padding:0 !important; background:transparent !important; }
-    .chart-form { width:100%; max-width:none; margin:0; padding:0; background:transparent; }
-    .chart-form input, .chart-form select, .chart-form textarea { width:100%; box-sizing:border-box; }
-    .chart-form .row { display:flex; gap:12px; }
-    .chart-form .row .field { flex:1; min-width:0; }
+
+    .embed-container{
+      box-sizing:border-box;
+      width:100%;
+      max-width:860px;
+      margin:0 auto;
+      padding:24px 24px 40px;
+      background:transparent;
+    }
+
+    body{ font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif; font-size:19px; line-height:1.5; }
+    .field{ margin-bottom:20px; }
+    label{ display:block; font-size:22px; font-weight:800; margin:0 0 8px; }
+
+    input, select, textarea{
+      width:100%; box-sizing:border-box;
+      font-size:18px; height:58px; padding:14px 18px;
+      border-radius:16px;
+    }
+
+    .row.two-col{ display:flex; gap:18px; }
+    .row.two-col .field--date{ flex:1.15 1 0; min-width:240px; }
+    .row.two-col .field--time{ flex:.85 1 0; max-width:320px; min-width:180px; }
+
+    .actions{ text-align:center; margin-top:14px; }
+    .actions input[type=submit], .actions button{
+      font-size:18px; font-weight:800; padding:14px 28px; border-radius:28px;
+    }
+
+    @media (max-width:640px){
+      body{ font-size:18px; }
+      label{ font-size:20px; }
+      .row.two-col{ flex-direction:column; gap:12px; }
+      .row.two-col .field--time{ max-width:none; }
+      input, select, textarea{ height:54px; }
+      .embed-container{ padding:16px 16px 28px; }
+    }
   </style>
+
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <div class="embed-fluid">
+  <div class="embed-container">
     <%= yield %>
   </div>
+
   <script>
     function sendHeight(){ var h=document.documentElement.scrollHeight; parent.postMessage({hdEmbedHeight:h},"*"); }
     new ResizeObserver(sendHeight).observe(document.body);
@@ -25,4 +61,5 @@
   </script>
 </body>
 </html>
+
 

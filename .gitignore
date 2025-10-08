@@ -60,3 +60,10 @@ public/packs
 # OS/IDE
 .idea/
 .vscode/
+.DS_Store
+*~
+*.rtf
+*.sb-*
+node_modules/
+vendor/javascript/
+lib/hdkit/Backup Docs/
