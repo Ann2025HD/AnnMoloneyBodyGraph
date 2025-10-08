@@ -17,12 +17,13 @@ class ChartsController < ApplicationController
   # NEW — SHOWS THE SIMPLE (NON-POPUP) FORM
   #===========================================================
   def new
-  @chart = ChartForm.new
-end
+    @chart = ChartForm.new
+    render layout: (params[:embed].present? ? "embed" : "application")
+  end
 
-def edit
-  @chart = ChartForm.find(params[:id])
-end
+  def edit
+    @chart = ChartForm.find(params[:id])
+  end
 
 
 
