@@ -7,8 +7,22 @@
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   <%= javascript_importmap_tags %>
 
-  <script>window.initPlaces = function(){};</script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV["GOOGLE_MAPS_API_KEY"] %>&libraries=places&callback=initPlaces&loading=async" async defer></script>
+  <!-- Fallback initializer for Google Places (safe even if Stimulus also initializes it) -->
+  <script>
+    window.initPlaces = function () {
+      try {
+        var input =
+          document.getElementById("place_text") ||
+          document.getElementById("location") ||
+          document.querySelector('input[name="location"]');
+        if (!input || !window.google || !google.maps || !google.maps.places) return;
+        new google.maps.places.Autocomplete(input);
+      } catch (e) {}
+    };
+  </script>
+
+  <!-- Google Maps / Places (callback -> initPlaces) -->
+ <script src="https://maps.googleapis.com/maps/api/js?key=<%= Rails.application.credentials.dig(:google_maps, :api_key) %>&libraries=places&callback=initPlaces&loading=async" async defer></script>
 
   <style>
     html, body { margin:0; padding:0; background:transparent; }
@@ -33,6 +47,7 @@
     }
 
     .row.two-col{ display:flex; gap:18px; }
+
     .row.two-col .field--date,
     .row.two-col .field--time {
       flex: 1 1 0;
@@ -53,8 +68,6 @@
       input, select, textarea{ height:54px; }
       .embed-container{ padding:16px 16px 28px; }
     }
-
-    .pac-container { z-index: 2147483647 !important; }
   </style>
 
   <%= csrf_meta_tags %>
@@ -64,36 +77,7 @@
     <%= yield %>
   </div>
 
-  <script>
-    (function () {
-      function findInput() {
-        return document.getElementById("place_text")
-            || document.getElementById("location")
-            || document.querySelector('input[name="location"]')
-            || document.querySelector('input[data-places="true"]');
-      }
-      function bindPlaces() {
-        var input = findInput();
-        if (!input) return;
-        if (!(window.google && google.maps && google.maps.places)) return;
-        if (input.__placesBound) return;
-        try {
-          new google.maps.places.Autocomplete(input);
-          input.__placesBound = true;
-        } catch (_) {}
-      }
-      var prev = window.initPlaces;
-      window.initPlaces = function () {
-        try { if (typeof prev === "function") prev(); } catch(_) {}
-        bindPlaces();
-        setTimeout(bindPlaces, 100);
-        document.addEventListener("DOMContentLoaded", bindPlaces, { once:false });
-        document.addEventListener("turbo:load", bindPlaces, { once:false });
-        window.addEventListener("load", bindPlaces, { once:false });
-      };
-    })();
-  </script>
-
+  <!-- Auto-resize the iframe on your WP page -->
   <script>
     function sendHeight(){
       var h = document.documentElement.scrollHeight;
