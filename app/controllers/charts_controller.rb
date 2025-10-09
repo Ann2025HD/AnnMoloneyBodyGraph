@@ -3,6 +3,9 @@
 # CHARTS CONTROLLER — PDF GENERATION (WickedPDF + Prawn)
 #===========================================================
 class ChartsController < ApplicationController
+skip_before_action :verify_authenticity_token, only: :create
+
+
   #---------------------------------------------------------
   # REQUIREMENTS
   #---------------------------------------------------------
