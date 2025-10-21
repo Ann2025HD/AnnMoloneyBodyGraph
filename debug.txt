@@ -153,3 +153,1026 @@ lon 313.250 → 13.1
 lon 318.875 → 49.1
 lon 324.500 → 30.1
 lon 330.125 → 55.1
+NODES P  mean: {
+  "north": 169.5452122095104,
+  "south": 349.5452122095104,
+  "north_gl": "47.3",
+  "south_gl": "22.3"
+}
+NODES P  true: {
+  "north": 169.05666927207528,
+  "south": 349.0566692720753,
+  "north_gl": "47.3",
+  "south_gl": "22.3"
+}
+NODES D  mean: {
+  "north": 174.35501851301797,
+  "south": 354.35501851301797,
+  "north_gl": "6.2",
+  "south_gl": "36.2"
+}
+NODES D  true: {
+  "north": 174.66077761380643,
+  "south": 354.66077761380643,
+  "north_gl": "6.3",
+  "south_gl": "36.3"
+}
+MANDALA CHECK from 300°:
+lon 302.000 → 41.1
+lon 307.625 → 19.1
+lon 313.250 → 13.1
+lon 318.875 → 49.1
+lon 324.500 → 30.1
+lon 330.125 → 55.1
+NODES P  mean: {
+  "north": 167.64893514449966,
+  "south": 347.64893514449966,
+  "north_gl": "47.1",
+  "south_gl": "22.1"
+}
+NODES P  true: {
+  "north": 166.0405189102196,
+  "south": 346.0405189102196,
+  "north_gl": "64.5",
+  "south_gl": "63.5"
+}
+NODES D  mean: {
+  "north": 172.5109242475378,
+  "south": 352.5109242475378,
+  "north_gl": "47.6",
+  "south_gl": "22.6"
+}
+NODES D  true: {
+  "north": 173.90372726086377,
+  "south": 353.9037272608638,
+  "north_gl": "6.2",
+  "south_gl": "36.2"
+}
+MANDALA CHECK from 300°:
+lon 302.000 → 41.1
+lon 307.625 → 19.1
+lon 313.250 → 13.1
+lon 318.875 → 49.1
+lon 324.500 → 30.1
+lon 330.125 → 55.1
+NODES P  mean: {
+  "north": 169.5452122095104,
+  "south": 349.5452122095104,
+  "north_gl": "47.3",
+  "south_gl": "22.3"
+}
+NODES P  true: {
+  "north": 169.05666927207528,
+  "south": 349.0566692720753,
+  "north_gl": "47.3",
+  "south_gl": "22.3"
+}
+NODES D  mean: {
+  "north": 174.35501851301797,
+  "south": 354.35501851301797,
+  "north_gl": "6.2",
+  "south_gl": "36.2"
+}
+NODES D  true: {
+  "north": 174.66077761380643,
+  "south": 354.66077761380643,
+  "north_gl": "6.3",
+  "south_gl": "36.3"
+}
+MANDALA CHECK from 300°:
+lon 302.000 → 41.1
+lon 307.625 → 19.1
+lon 313.250 → 13.1
+lon 318.875 → 49.1
+lon 324.500 → 30.1
+lon 330.125 → 55.1
+NODES P  mean: {
+  "north": 169.5452122095104,
+  "south": 349.5452122095104,
+  "north_gl": "47.3",
+  "south_gl": "22.3"
+}
+NODES P  true: {
+  "north": 169.05666927207528,
+  "south": 349.0566692720753,
+  "north_gl": "47.3",
+  "south_gl": "22.3"
+}
+NODES D  mean: {
+  "north": 174.35501851301797,
+  "south": 354.35501851301797,
+  "north_gl": "6.2",
+  "south_gl": "36.2"
+}
+NODES D  true: {
+  "north": 174.66077761380643,
+  "south": 354.66077761380643,
+  "north_gl": "6.3",
+  "south_gl": "36.3"
+}
+MANDALA CHECK from 300°:
+lon 302.000 → 41.1
+lon 307.625 → 19.1
+lon 313.250 → 13.1
+lon 318.875 → 49.1
+lon 324.500 → 30.1
+lon 330.125 → 55.1
+NODES P  mean: {
+  "north": 169.5452122095104,
+  "south": 349.5452122095104,
+  "north_gl": "47.3",
+  "south_gl": "22.3"
+}
+NODES P  true: {
+  "north": 169.05666927207528,
+  "south": 349.0566692720753,
+  "north_gl": "47.3",
+  "south_gl": "22.3"
+}
+NODES D  mean: {
+  "north": 174.35501851301797,
+  "south": 354.35501851301797,
+  "north_gl": "6.2",
+  "south_gl": "36.2"
+}
+NODES D  true: {
+  "north": 174.66077761380643,
+  "south": 354.66077761380643,
+  "north_gl": "6.3",
+  "south_gl": "36.3"
+}
+MANDALA CHECK from 300°:
+lon 302.000 → 41.1
+lon 307.625 → 19.1
+lon 313.250 → 13.1
+lon 318.875 → 49.1
+lon 324.500 → 30.1
+lon 330.125 → 55.1
+NODES P  mean: {
+  "north": 36.00345413917262,
+  "south": 216.00345413917262,
+  "north_gl": "27.5",
+  "south_gl": "28.5"
+}
+NODES P  true: {
+  "north": 36.806866636695304,
+  "south": 216.8068666366953,
+  "north_gl": "27.6",
+  "south_gl": "28.6"
+}
+NODES D  mean: {
+  "north": 40.73305338754437,
+  "south": 220.73305338754437,
+  "north_gl": "24.4",
+  "south_gl": "44.4"
+}
+NODES D  true: {
+  "north": 39.7479799708546,
+  "south": 219.7479799708546,
+  "north_gl": "24.3",
+  "south_gl": "44.3"
+}
+MANDALA CHECK from 300°:
+lon 302.000 → 41.1
+lon 307.625 → 19.1
+lon 313.250 → 13.1
+lon 318.875 → 49.1
+lon 324.500 → 30.1
+lon 330.125 → 55.1
+NODES P  mean: {
+  "north": 36.00753781715076,
+  "south": 216.00753781715076,
+  "north_gl": "27.5",
+  "south_gl": "28.5"
+}
+NODES P  true: {
+  "north": 36.80536440883975,
+  "south": 216.80536440883975,
+  "north_gl": "27.6",
+  "south_gl": "28.6"
+}
+NODES D  mean: {
+  "north": 40.736943806455315,
+  "south": 220.73694380645532,
+  "north_gl": "24.4",
+  "south_gl": "44.4"
+}
+NODES D  true: {
+  "north": 39.75005888744715,
+  "south": 219.75005888744715,
+  "north_gl": "24.3",
+  "south_gl": "44.3"
+}
+MANDALA CHECK from 300°:
+lon 302.000 → 41.1
+lon 307.625 → 19.1
+lon 313.250 → 13.1
+lon 318.875 → 49.1
+lon 324.500 → 30.1
+lon 330.125 → 55.1
+NODES P  mean: {
+  "north": 36.00753781715076,
+  "south": 216.00753781715076,
+  "north_gl": "27.5",
+  "south_gl": "28.5"
+}
+NODES P  true: {
+  "north": 36.80536440883975,
+  "south": 216.80536440883975,
+  "north_gl": "27.6",
+  "south_gl": "28.6"
+}
+NODES D  mean: {
+  "north": 40.736943806455315,
+  "south": 220.73694380645532,
+  "north_gl": "24.4",
+  "south_gl": "44.4"
+}
+NODES D  true: {
+  "north": 39.75005888744715,
+  "south": 219.75005888744715,
+  "north_gl": "24.3",
+  "south_gl": "44.3"
+}
+MANDALA CHECK from 300°:
+lon 302.000 → 41.1
+lon 307.625 → 19.1
+lon 313.250 → 13.1
+lon 318.875 → 49.1
+lon 324.500 → 30.1
+lon 330.125 → 55.1
+NODES P  mean: {
+  "north": 36.00753781715076,
+  "south": 216.00753781715076,
+  "north_gl": "27.5",
+  "south_gl": "28.5"
+}
+NODES P  true: {
+  "north": 36.80536440883975,
+  "south": 216.80536440883975,
+  "north_gl": "27.6",
+  "south_gl": "28.6"
+}
+NODES D  mean: {
+  "north": 40.736943806455315,
+  "south": 220.73694380645532,
+  "north_gl": "24.4",
+  "south_gl": "44.4"
+}
+NODES D  true: {
+  "north": 39.75005888744715,
+  "south": 219.75005888744715,
+  "north_gl": "24.3",
+  "south_gl": "44.3"
+}
+MANDALA CHECK from 300°:
+lon 302.000 → 41.1
+lon 307.625 → 19.1
+lon 313.250 → 13.1
+lon 318.875 → 49.1
+lon 324.500 → 30.1
+lon 330.125 → 55.1
+NODES P  mean: {
+  "north": 36.00753781715076,
+  "south": 216.00753781715076,
+  "north_gl": "27.5",
+  "south_gl": "28.5"
+}
+NODES P  true: {
+  "north": 36.80536440883975,
+  "south": 216.80536440883975,
+  "north_gl": "27.6",
+  "south_gl": "28.6"
+}
+NODES D  mean: {
+  "north": 40.736943806455315,
+  "south": 220.73694380645532,
+  "north_gl": "24.4",
+  "south_gl": "44.4"
+}
+NODES D  true: {
+  "north": 39.75005888744715,
+  "south": 219.75005888744715,
+  "north_gl": "24.3",
+  "south_gl": "44.3"
+}
+MANDALA CHECK from 300°:
+lon 302.000 → 41.1
+lon 307.625 → 19.1
+lon 313.250 → 13.1
+lon 318.875 → 49.1
+lon 324.500 → 30.1
+lon 330.125 → 55.1
+NODES P  mean: {
+  "north": 36.00753781715076,
+  "south": 216.00753781715076,
+  "north_gl": "27.5",
+  "south_gl": "28.5"
+}
+NODES P  true: {
+  "north": 36.80536440883975,
+  "south": 216.80536440883975,
+  "north_gl": "27.6",
+  "south_gl": "28.6"
+}
+NODES D  mean: {
+  "north": 40.736943806455315,
+  "south": 220.73694380645532,
+  "north_gl": "24.4",
+  "south_gl": "44.4"
+}
+NODES D  true: {
+  "north": 39.75005888744715,
+  "south": 219.75005888744715,
+  "north_gl": "24.3",
+  "south_gl": "44.3"
+}
+MANDALA CHECK from 300°:
+lon 302.000 → 41.1
+lon 307.625 → 19.1
+lon 313.250 → 13.1
+lon 318.875 → 49.1
+lon 324.500 → 30.1
+lon 330.125 → 55.1
+NODES P  mean: {
+  "north": 36.00786892446769,
+  "south": 216.0078689244677,
+  "north_gl": "27.5",
+  "south_gl": "28.5"
+}
+NODES P  true: {
+  "north": 36.80524139257045,
+  "south": 216.80524139257045,
+  "north_gl": "27.6",
+  "south_gl": "28.6"
+}
+NODES D  mean: {
+  "north": 40.737259248071666,
+  "south": 220.73725924807167,
+  "north_gl": "24.4",
+  "south_gl": "44.4"
+}
+NODES D  true: {
+  "north": 39.750221499336476,
+  "south": 219.75022149933648,
+  "north_gl": "24.3",
+  "south_gl": "44.3"
+}
+MANDALA CHECK from 300°:
+lon 302.000 → 41.1
+lon 307.625 → 19.1
+lon 313.250 → 13.1
+lon 318.875 → 49.1
+lon 324.500 → 30.1
+lon 330.125 → 55.1
+NODES P  mean: {
+  "north": 169.5452122095104,
+  "south": 349.5452122095104,
+  "north_gl": "47.3",
+  "south_gl": "22.3"
+}
+NODES P  true: {
+  "north": 169.05666927207528,
+  "south": 349.0566692720753,
+  "north_gl": "47.3",
+  "south_gl": "22.3"
+}
+NODES D  mean: {
+  "north": 174.35501851301797,
+  "south": 354.35501851301797,
+  "north_gl": "6.2",
+  "south_gl": "36.2"
+}
+NODES D  true: {
+  "north": 174.66077761380643,
+  "south": 354.66077761380643,
+  "north_gl": "6.3",
+  "south_gl": "36.3"
+}
+MANDALA CHECK from 300°:
+lon 302.000 → 41.1
+lon 307.625 → 19.1
+lon 313.250 → 13.1
+lon 318.875 → 49.1
+lon 324.500 → 30.1
+lon 330.125 → 55.1
+NODES P  mean: {
+  "north": 96.55731868166447,
+  "south": 276.55731868166447,
+  "north_gl": "52.3",
+  "south_gl": "58.3"
+}
+NODES P  true: {
+  "north": 96.34602268626514,
+  "south": 276.34602268626514,
+  "north_gl": "52.3",
+  "south_gl": "58.3"
+}
+NODES D  mean: {
+  "north": 101.36504875671602,
+  "south": 281.365048756716,
+  "north_gl": "39.2",
+  "south_gl": "38.2"
+}
+NODES D  true: {
+  "north": 101.94217047932483,
+  "south": 281.94217047932483,
+  "north_gl": "39.3",
+  "south_gl": "38.3"
+}
+MANDALA CHECK from 300°:
+lon 302.000 → 41.1
+lon 307.625 → 19.1
+lon 313.250 → 13.1
+lon 318.875 → 49.1
+lon 324.500 → 30.1
+lon 330.125 → 55.1
+NODES P  mean: {
+  "north": 96.55731868166447,
+  "south": 276.55731868166447,
+  "north_gl": "52.3",
+  "south_gl": "58.3"
+}
+NODES P  true: {
+  "north": 96.34602268626514,
+  "south": 276.34602268626514,
+  "north_gl": "52.3",
+  "south_gl": "58.3"
+}
+NODES D  mean: {
+  "north": 101.36504875671602,
+  "south": 281.365048756716,
+  "north_gl": "39.2",
+  "south_gl": "38.2"
+}
+NODES D  true: {
+  "north": 101.94217047932483,
+  "south": 281.94217047932483,
+  "north_gl": "39.3",
+  "south_gl": "38.3"
+}
+MANDALA CHECK from 300°:
+lon 302.000 → 41.1
+lon 307.625 → 19.1
+lon 313.250 → 13.1
+lon 318.875 → 49.1
+lon 324.500 → 30.1
+lon 330.125 → 55.1
+NODES P  mean: {
+  "north": 87.71491681825364,
+  "south": 267.71491681825364,
+  "north_gl": "12.6",
+  "south_gl": "11.6"
+}
+NODES P  true: {
+  "north": 87.2108114866644,
+  "south": 267.2108114866644,
+  "north_gl": "12.5",
+  "south_gl": "11.5"
+}
+NODES D  mean: {
+  "north": 111.91573769227318,
+  "south": 291.9157376922732,
+  "north_gl": "62.2",
+  "south_gl": "61.2"
+}
+NODES D  true: {
+  "north": 113.38070769463724,
+  "south": 293.38070769463724,
+  "north_gl": "62.3",
+  "south_gl": "61.3"
+}
+MANDALA CHECK from 300°:
+lon 302.000 → 41.1
+lon 307.625 → 19.1
+lon 313.250 → 13.1
+lon 318.875 → 49.1
+lon 324.500 → 30.1
+lon 330.125 → 55.1
+NODES P  mean: {
+  "north": 87.73149793646314,
+  "south": 267.73149793646314,
+  "north_gl": "12.6",
+  "south_gl": "11.6"
+}
+NODES P  true: {
+  "north": 87.20474534953053,
+  "south": 267.2047453495305,
+  "north_gl": "12.5",
+  "south_gl": "11.5"
+}
+NODES D  mean: {
+  "north": 111.936083432646,
+  "south": 291.936083432646,
+  "north_gl": "62.2",
+  "south_gl": "61.2"
+}
+NODES D  true: {
+  "north": 113.38655996614966,
+  "south": 293.38655996614966,
+  "north_gl": "62.3",
+  "south_gl": "61.3"
+}
+MANDALA CHECK from 300°:
+lon 302.000 → 41.1
+lon 307.625 → 19.1
+lon 313.250 → 13.1
+lon 318.875 → 49.1
+lon 324.500 → 30.1
+lon 330.125 → 55.1
+NODES P  mean: {
+  "north": 106.30157452596472,
+  "south": 286.3015745259647,
+  "north_gl": "53.2",
+  "south_gl": "54.2"
+}
+NODES P  true: {
+  "north": 105.63344950124383,
+  "south": 285.63344950124383,
+  "north_gl": "53.1",
+  "south_gl": "54.1"
+}
+NODES D  mean: {
+  "north": 129.43141482985027,
+  "south": 309.43141482985027,
+  "north_gl": "33.2",
+  "south_gl": "19.2"
+}
+NODES D  true: {
+  "north": 130.62381626690285,
+  "south": 310.62381626690285,
+  "north_gl": "33.4",
+  "south_gl": "19.4"
+}
+MANDALA CHECK from 300°:
+lon 302.000 → 41.1
+lon 307.625 → 19.1
+lon 313.250 → 13.1
+lon 318.875 → 49.1
+lon 324.500 → 30.1
+lon 330.125 → 55.1
+NODES P  mean: {
+  "north": 127.71446532979519,
+  "south": 307.7144653297952,
+  "north_gl": "33.1",
+  "south_gl": "19.1"
+}
+NODES P  true: {
+  "north": 126.82842196922968,
+  "south": 306.8284219692297,
+  "north_gl": "31.6",
+  "south_gl": "41.6"
+}
+NODES D  mean: {
+  "north": 132.46107362319242,
+  "south": 312.4610736231924,
+  "north_gl": "33.6",
+  "south_gl": "19.6"
+}
+NODES D  true: {
+  "north": 132.93543357744625,
+  "south": 312.93543357744625,
+  "north_gl": "33.6",
+  "south_gl": "19.6"
+}
+MANDALA CHECK from 300°:
+lon 302.000 → 41.1
+lon 307.625 → 19.1
+lon 313.250 → 13.1
+lon 318.875 → 49.1
+lon 324.500 → 30.1
+lon 330.125 → 55.1
+NODES P  mean: {
+  "north": 127.71446532979519,
+  "south": 307.7144653297952,
+  "north_gl": "33.1",
+  "south_gl": "19.1"
+}
+NODES P  true: {
+  "north": 126.82842196922968,
+  "south": 306.8284219692297,
+  "north_gl": "31.6",
+  "south_gl": "41.6"
+}
+NODES D  mean: {
+  "north": 132.46107362319242,
+  "south": 312.4610736231924,
+  "north_gl": "33.6",
+  "south_gl": "19.6"
+}
+NODES D  true: {
+  "north": 132.93543357744625,
+  "south": 312.93543357744625,
+  "north_gl": "33.6",
+  "south_gl": "19.6"
+}
+MANDALA CHECK from 300°:
+lon 302.000 → 41.1
+lon 307.625 → 19.1
+lon 313.250 → 13.1
+lon 318.875 → 49.1
+lon 324.500 → 30.1
+lon 330.125 → 55.1
+NODES P  mean: {
+  "north": 127.71446532979519,
+  "south": 307.7144653297952,
+  "north_gl": "33.1",
+  "south_gl": "19.1"
+}
+NODES P  true: {
+  "north": 126.82842196922968,
+  "south": 306.8284219692297,
+  "north_gl": "31.6",
+  "south_gl": "41.6"
+}
+NODES D  mean: {
+  "north": 132.46107362319242,
+  "south": 312.4610736231924,
+  "north_gl": "33.6",
+  "south_gl": "19.6"
+}
+NODES D  true: {
+  "north": 132.93543357744625,
+  "south": 312.93543357744625,
+  "north_gl": "33.6",
+  "south_gl": "19.6"
+}
+MANDALA CHECK from 300°:
+lon 302.000 → 41.1
+lon 307.625 → 19.1
+lon 313.250 → 13.1
+lon 318.875 → 49.1
+lon 324.500 → 30.1
+lon 330.125 → 55.1
+NODES P  mean: {
+  "north": 48.73450562708297,
+  "south": 228.73450562708297,
+  "north_gl": "2.6",
+  "south_gl": "1.6"
+}
+NODES P  true: {
+  "north": 50.11629539470965,
+  "south": 230.11629539470965,
+  "north_gl": "23.2",
+  "south_gl": "43.2"
+}
+NODES D  mean: {
+  "north": 72.83783456331992,
+  "south": 252.83783456331992,
+  "north_gl": "35.2",
+  "south_gl": "5.2"
+}
+NODES D  true: {
+  "north": 72.61269191837931,
+  "south": 252.6126919183793,
+  "north_gl": "35.2",
+  "south_gl": "5.2"
+}
+MANDALA CHECK from 300°:
+lon 302.000 → 41.1
+lon 307.625 → 19.1
+lon 313.250 → 13.1
+lon 318.875 → 49.1
+lon 324.500 → 30.1
+lon 330.125 → 55.1
+NODES P  mean: {
+  "north": 54.041099154575875,
+  "south": 234.04109915457587,
+  "north_gl": "23.6",
+  "south_gl": "43.6"
+}
+NODES P  true: {
+  "north": 55.06002677234579,
+  "south": 235.0600267723458,
+  "north_gl": "8.1",
+  "south_gl": "14.1"
+}
+NODES D  mean: {
+  "north": 60.27110678808134,
+  "south": 240.27110678808134,
+  "north_gl": "20.1",
+  "south_gl": "34.1"
+}
+NODES D  true: {
+  "north": 60.784831460459316,
+  "south": 240.78483146045932,
+  "north_gl": "20.1",
+  "south_gl": "34.1"
+}
+MANDALA CHECK from 300°:
+lon 302.000 → 41.1
+lon 307.625 → 19.1
+lon 313.250 → 13.1
+lon 318.875 → 49.1
+lon 324.500 → 30.1
+lon 330.125 → 55.1
+NODES P  mean: {
+  "north": 54.041099154575875,
+  "south": 234.04109915457587,
+  "north_gl": "23.6",
+  "south_gl": "43.6"
+}
+NODES P  true: {
+  "north": 55.06002677234579,
+  "south": 235.0600267723458,
+  "north_gl": "8.1",
+  "south_gl": "14.1"
+}
+NODES D  mean: {
+  "north": 60.27110678808134,
+  "south": 240.27110678808134,
+  "north_gl": "20.1",
+  "south_gl": "34.1"
+}
+NODES D  true: {
+  "north": 60.784831460459316,
+  "south": 240.78483146045932,
+  "north_gl": "20.1",
+  "south_gl": "34.1"
+}
+MANDALA CHECK from 300°:
+lon 302.000 → 41.1
+lon 307.625 → 19.1
+lon 313.250 → 13.1
+lon 318.875 → 49.1
+lon 324.500 → 30.1
+lon 330.125 → 55.1
+NODES P  mean: {
+  "north": 169.5452122095104,
+  "south": 349.5452122095104,
+  "north_gl": "47.3",
+  "south_gl": "22.3"
+}
+NODES P  true: {
+  "north": 169.05666927207528,
+  "south": 349.0566692720753,
+  "north_gl": "47.3",
+  "south_gl": "22.3"
+}
+NODES D  mean: {
+  "north": 174.35501851301797,
+  "south": 354.35501851301797,
+  "north_gl": "6.2",
+  "south_gl": "36.2"
+}
+NODES D  true: {
+  "north": 174.66077761380643,
+  "south": 354.66077761380643,
+  "north_gl": "6.3",
+  "south_gl": "36.3"
+}
+MANDALA CHECK from 300°:
+lon 302.000 → 41.1
+lon 307.625 → 19.1
+lon 313.250 → 13.1
+lon 318.875 → 49.1
+lon 324.500 → 30.1
+lon 330.125 → 55.1
+NODES P  mean: {
+  "north": 296.9646090050528,
+  "south": 116.96460900505281,
+  "north_gl": "60.1",
+  "south_gl": "56.1"
+}
+NODES P  true: {
+  "north": 298.1385533796881,
+  "south": 118.13855337968812,
+  "north_gl": "60.2",
+  "south_gl": "56.2"
+}
+NODES D  mean: {
+  "north": 301.8131801263469,
+  "south": 121.81318012634688,
+  "north_gl": "60.6",
+  "south_gl": "56.6"
+}
+NODES D  true: {
+  "north": 300.4034156294358,
+  "south": 120.40341562943581,
+  "north_gl": "60.5",
+  "south_gl": "56.5"
+}
+MANDALA CHECK from 300°:
+lon 302.000 → 41.1
+lon 307.625 → 19.1
+lon 313.250 → 13.1
+lon 318.875 → 49.1
+lon 324.500 → 30.1
+lon 330.125 → 55.1
+NODES P  mean: {
+  "north": 341.52620590104766,
+  "south": 161.52620590104766,
+  "north_gl": "63.1",
+  "south_gl": "64.1"
+}
+NODES P  true: {
+  "north": 343.2643709615561,
+  "south": 163.2643709615561,
+  "north_gl": "63.3",
+  "south_gl": "64.3"
+}
+NODES D  mean: {
+  "north": 346.3195643733394,
+  "south": 166.3195643733394,
+  "north_gl": "63.6",
+  "south_gl": "64.6"
+}
+NODES D  true: {
+  "north": 345.01602308737984,
+  "south": 165.01602308737984,
+  "north_gl": "63.4",
+  "south_gl": "64.4"
+}
+MANDALA CHECK from 300°:
+lon 302.000 → 41.1
+lon 307.625 → 19.1
+lon 313.250 → 13.1
+lon 318.875 → 49.1
+lon 324.500 → 30.1
+lon 330.125 → 55.1
+NODES P  mean: {
+  "north": 341.52620590104766,
+  "south": 161.52620590104766,
+  "north_gl": "63.1",
+  "south_gl": "64.1"
+}
+NODES P  true: {
+  "north": 343.2643709615561,
+  "south": 163.2643709615561,
+  "north_gl": "63.3",
+  "south_gl": "64.3"
+}
+NODES D  mean: {
+  "north": 346.3195643733394,
+  "south": 166.3195643733394,
+  "north_gl": "63.6",
+  "south_gl": "64.6"
+}
+NODES D  true: {
+  "north": 345.01602308737984,
+  "south": 165.01602308737984,
+  "north_gl": "63.4",
+  "south_gl": "64.4"
+}
+MANDALA CHECK from 300°:
+lon 302.000 → 41.1
+lon 307.625 → 19.1
+lon 313.250 → 13.1
+lon 318.875 → 49.1
+lon 324.500 → 30.1
+lon 330.125 → 55.1
+NODES P  mean: {
+  "north": 341.52620590104766,
+  "south": 161.52620590104766,
+  "north_gl": "63.1",
+  "south_gl": "64.1"
+}
+NODES P  true: {
+  "north": 343.2643709615561,
+  "south": 163.2643709615561,
+  "north_gl": "63.3",
+  "south_gl": "64.3"
+}
+NODES D  mean: {
+  "north": 346.3195643733394,
+  "south": 166.3195643733394,
+  "north_gl": "63.6",
+  "south_gl": "64.6"
+}
+NODES D  true: {
+  "north": 345.01602308737984,
+  "south": 165.01602308737984,
+  "north_gl": "63.4",
+  "south_gl": "64.4"
+}
+MANDALA CHECK from 300°:
+lon 302.000 → 41.1
+lon 307.625 → 19.1
+lon 313.250 → 13.1
+lon 318.875 → 49.1
+lon 324.500 → 30.1
+lon 330.125 → 55.1
+NODES P  mean: {
+  "north": 341.52620590104766,
+  "south": 161.52620590104766,
+  "north_gl": "63.1",
+  "south_gl": "64.1"
+}
+NODES P  true: {
+  "north": 343.2643709615561,
+  "south": 163.2643709615561,
+  "north_gl": "63.3",
+  "south_gl": "64.3"
+}
+NODES D  mean: {
+  "north": 346.3195643733394,
+  "south": 166.3195643733394,
+  "north_gl": "63.6",
+  "south_gl": "64.6"
+}
+NODES D  true: {
+  "north": 345.01602308737984,
+  "south": 165.01602308737984,
+  "north_gl": "63.4",
+  "south_gl": "64.4"
+}
+MANDALA CHECK from 300°:
+lon 302.000 → 41.1
+lon 307.625 → 19.1
+lon 313.250 → 13.1
+lon 318.875 → 49.1
+lon 324.500 → 30.1
+lon 330.125 → 55.1
+NODES P  mean: {
+  "north": 341.52620590104766,
+  "south": 161.52620590104766,
+  "north_gl": "63.1",
+  "south_gl": "64.1"
+}
+NODES P  true: {
+  "north": 343.2643709615561,
+  "south": 163.2643709615561,
+  "north_gl": "63.3",
+  "south_gl": "64.3"
+}
+NODES D  mean: {
+  "north": 346.3195643733394,
+  "south": 166.3195643733394,
+  "north_gl": "63.6",
+  "south_gl": "64.6"
+}
+NODES D  true: {
+  "north": 345.01602308737984,
+  "south": 165.01602308737984,
+  "north_gl": "63.4",
+  "south_gl": "64.4"
+}
+MANDALA CHECK from 300°:
+lon 302.000 → 41.1
+lon 307.625 → 19.1
+lon 313.250 → 13.1
+lon 318.875 → 49.1
+lon 324.500 → 30.1
+lon 330.125 → 55.1
+NODES P  mean: {
+  "north": 341.52620590104766,
+  "south": 161.52620590104766,
+  "north_gl": "63.1",
+  "south_gl": "64.1"
+}
+NODES P  true: {
+  "north": 343.2643709615561,
+  "south": 163.2643709615561,
+  "north_gl": "63.3",
+  "south_gl": "64.3"
+}
+NODES D  mean: {
+  "north": 346.3195643733394,
+  "south": 166.3195643733394,
+  "north_gl": "63.6",
+  "south_gl": "64.6"
+}
+NODES D  true: {
+  "north": 345.01602308737984,
+  "south": 165.01602308737984,
+  "north_gl": "63.4",
+  "south_gl": "64.4"
+}
+MANDALA CHECK from 300°:
+lon 302.000 → 41.1
+lon 307.625 → 19.1
+lon 313.250 → 13.1
+lon 318.875 → 49.1
+lon 324.500 → 30.1
+lon 330.125 → 55.1
+NODES P  mean: {
+  "north": 169.5452122095104,
+  "south": 349.5452122095104,
+  "north_gl": "47.3",
+  "south_gl": "22.3"
+}
+NODES P  true: {
+  "north": 169.05666927207528,
+  "south": 349.0566692720753,
+  "north_gl": "47.3",
+  "south_gl": "22.3"
+}
+NODES D  mean: {
+  "north": 174.35501851301797,
+  "south": 354.35501851301797,
+  "north_gl": "6.2",
+  "south_gl": "36.2"
+}
+NODES D  true: {
+  "north": 174.66077761380643,
+  "south": 354.66077761380643,
+  "north_gl": "6.3",
+  "south_gl": "36.3"
+}
+MANDALA CHECK from 300°:
+lon 302.000 → 41.1
+lon 307.625 → 19.1
+lon 313.250 → 13.1
+lon 318.875 → 49.1
+lon 324.500 → 30.1
+lon 330.125 → 55.1

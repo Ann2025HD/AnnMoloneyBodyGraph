@@ -1,0 +1,56 @@
+/* === Shared form styles (used in dev + iframe) === */
+
+/* Center the form and cap width */
+.chart-form {
+  max-width: 860px;
+  margin: 0 auto;
+  background: #fff;
+}
+
+/* Two-column row for Date & Time */
+.row.two-col {
+  display: flex;
+  gap: 18px;
+}
+.row.two-col .field--date,
+.row.two-col .field--time {
+  flex: 1 1 0;
+  max-width: 320px;
+  min-width: 180px;
+}
+
+/* Labels and inputs */
+.field label {
+  display: block;
+  font-size: 22px;
+  font-weight: 800;
+  margin: 0 0 8px;
+}
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 18px;
+  height: 58px;
+  padding: 14px 18px;
+  border-radius: 16px;
+}
+
+/* Submit button area */
+.actions {
+  text-align: center;
+  margin-top: 14px;
+}
+
+/* Make Google Places dropdown sit above UI */
+.pac-container {
+  z-index: 99999 !important;
+}
+
+/* Mobile tweaks */
+@media (max-width: 640px) {
+  .row.two-col { flex-direction: column; gap: 12px; }
+  .row.two-col .field--time { max-width: none; }
+  .field input, .field select, .field textarea { height: 54px; }
+}

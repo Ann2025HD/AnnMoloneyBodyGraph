@@ -1,17 +1,56 @@
 <%# app/views/bodygraphs/_form.html.erb %>
 
-<div class="chart-form" style="background:#fff;">
+<%# Optional dev banner %>
+<% if Rails.env.development? %>
+  <div style="padding:8px; margin:8px 0; border:1px dashed #666; background:#f9f9f9; font-family:monospace;">
+    DEV: rendering <%= __FILE__ %> at <%= Time.current.strftime('%Y-%m-%d %H:%M:%S') %>
+  </div>
+<% end %>
+
+<style>
+  /* cap the form width and center it (works in dev + iframe) */
+  .chart-form { max-width: 560px; margin: 0 auto; }
+
+  /* two-column date/time row */
+  .row.two-col { display: flex; gap: 18px; flex-wrap: wrap; }
+  .row.two-col .field--date,
+  .row.two-col .field--time { flex: 1 1 0; max-width: 280px; min-width: 180px; }
+
+  /* basic labels/inputs */
+  .field label { display:block; font-weight:800; margin:0 0 8px; }
+  .field input, .field select, .field textarea {
+    width:100%; box-sizing:border-box; font-size:18px; height:58px; padding:14px 18px; border-radius:16px;
+  }
+
+  /* submit button look */
+  .btn-primary {
+    appearance:none; border:0; border-radius:28px;
+    padding:14px 28px; font-weight:800; font-size:18px; cursor:pointer;
+  }
+
+  /* make Google suggestions dropdown sit above UI */
+  .pac-container { z-index: 99999 !important; }
+
+  /* small-screen tweaks */
+  @media (max-width:1024px){ .chart-form { padding:0 16px; } }
+  @media (max-width:640px){
+    .row.two-col { flex-direction:column; gap:12px; }
+    .row.two-col .field--time { max-width:none; }
+  }
+</style>
+
+<div class="chart-form">
   <%# --- Friendly validation message (if any) --- %>
   <% if flash[:alert].present? %>
     <p class="alert"><%= flash[:alert] %></p>
   <% end %>
 
-  <%= form_with url: charts_path,
-                method: :post,
-                local: true,
-                data: { turbo: false },
-                html: { novalidate: true, autocomplete: "off", target: "_blank" } do |f| %>
-
+ <%= form_with url: charts_path,
+      method: :post,
+      local: true,
+      data: { turbo: false },
+      html: { novalidate: true, autocomplete: "off" } do |f| %>
+<%# no target: "_blank" %>
 
     <%# NAME (full width) %>
     <div class="field">
@@ -20,27 +59,32 @@
     </div>
 
     <%# DATE + TIME (same row) %>
-<div class="row two-col">
-  <div class="field field--date">
-    <label for="date">Date of birth</label>
-    <%= f.text_field :date,
-          id: "date",
-          placeholder: "dd/mm/yyyy",
-          inputmode: "numeric",
-          autocomplete: "off",
-          class: "w-full",
+    <div class="row two-col">
+      <div class="field field--date">
+        <label for="date">Date of birth</label>
+        <%= f.text_field :date,
+              id: "date",
+              placeholder: "dd/mm/yyyy",
+              inputmode: "numeric",
+              autocomplete: "off",
+              class: "w-full",
+              required: true %>
+        <%= hidden_field_tag :date_iso, "", id: "date_iso" %>
+      </div>
+
+      <div class="field field--time">
+        <label for="time">Time of birth <span class="muted">(optional)</span></label>
+        <%= f.time_field :time,
+          id: "time",
+          step: 60,
+          min: "00:00",
+          max: "23:59",
+          placeholder: "HH:MM",
           required: true %>
-    <%= hidden_field_tag :date_iso, "", id: "date_iso" %>
-  </div>
+      </div>
+    </div>
 
-  <div class="field field--time">
-    <label for="time">Time of birth <span class="muted">(optional)</span></label>
-    <%= f.time_field :time, id: "time", step: 60, placeholder: "HH:MM" %>
-  </div>
-</div>
-
-
-    <%# LOCATION (single field) %>
+    <%# LOCATION (classic Google Places Autocomplete) %>
     <div class="field">
       <label for="location">Location</label>
       <%= text_field_tag :location, nil,
@@ -51,33 +95,98 @@
             required: true %>
     </div>
 
-    <%# Optional hidden fields if using Google Places %>
+    <%# Hidden fields expected by the controller %>
     <%= hidden_field_tag :place_id,   "", id: "place_id"   %>
     <%= hidden_field_tag :place_text, "", id: "place_text" %>
     <%= hidden_field_tag :lat,        "", id: "lat"        %>
     <%= hidden_field_tag :lng,        "", id: "lng"        %>
 
     <%# SUBMIT BUTTON %>
-    <div style="text-align: center; margin-top: 1.5rem;">
+    <div class="actions" style="text-align:center; margin-top:1rem;">
       <%= f.submit "VIEW YOUR CHART", class: "btn-primary" %>
     </div>
   <% end %>
 </div>
 
-<%# -------------------------------
-     Minimal scripts for UX
-     - DD/MM/YYYY mask + hidden ISO
-     - Google Places (optional)
-   -------------------------------- %>
+<%# --- Load Google Maps JS (no callback) --- %>
+<% maps_key = Rails.application.credentials.dig(:google_maps, :api_key) || ENV['GOOGLE_MAPS_API_KEY'] %>
+<script async src="https://maps.googleapis.com/maps/api/js?key=<%= maps_key %>&libraries=places&v=weekly&loading=async"></script>
+
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-  // ---- DATE (DD / MM / YYYY) ----
+(function () {
+  function attach() {
+    const el = document.getElementById('location');
+    if (!el || !window.google || !google.maps?.places) return;
+
+    // NEW: references to hidden fields + a helper to clear them
+    const placeIdEl   = document.getElementById('place_id');
+    const placeTextEl = document.getElementById('place_text');
+    const latEl       = document.getElementById('lat');
+    const lngEl       = document.getElementById('lng');
+
+    function clearHidden() {
+      placeIdEl.value = "";
+      placeTextEl.value = "";
+      latEl.value = "";
+      lngEl.value = "";
+    }
+
+    // Start clean so an old selection can't leak through
+    clearHidden();
+
+    const ac = new google.maps.places.Autocomplete(el, {
+      types: ['(cities)'],                       // limit to cities; remove for all places
+      fields: ['place_id','formatted_address','geometry'],
+    });
+
+    // When a suggestion is chosen, fill hidden fields
+    ac.addListener('place_changed', () => {
+      const p = ac.getPlace();
+      placeIdEl.value   = p?.place_id || '';
+      placeTextEl.value = p?.formatted_address || el.value || '';
+      latEl.value       = p?.geometry?.location?.lat?.() ?? '';
+      lngEl.value       = p?.geometry?.location?.lng?.() ?? '';
+      el.setCustomValidity(''); // clear any hint once a real place is chosen
+    });
+
+    // NEW: if the user types/edits, clear hidden fields (prevents stale reuse)
+    const clearOnEdit = () => {
+      clearHidden();
+      // gentle nudge before submit; submit validator will enforce this
+      el.setCustomValidity('Please pick a location from the suggestions.');
+    };
+    el.addEventListener('input',  clearOnEdit);
+    el.addEventListener('change', clearOnEdit);
+
+    console.debug('[places] autocomplete attached');
+  }
+
+  // If already loaded, attach now
+  if (window.google?.maps?.places) { attach(); return; }
+
+  // Attach once the loader finishes
+  const mapsScript = document.querySelector('script[src*="maps.googleapis.com/maps/api/js"]');
+  if (mapsScript) mapsScript.addEventListener('load', attach, { once: true });
+
+  // Fallback: poll up to 15s
+  const t0 = Date.now();
+  const poll = setInterval(() => {
+    if (window.google?.maps?.places) { clearInterval(poll); attach(); }
+    if (Date.now() - t0 > 15000) { clearInterval(poll); console.warn('[places] timed out waiting for google.maps.places'); }
+  }, 50);
+})();
+</script>
+
+
+<%# --- Date mask + ISO hidden, and time input niceties --- %>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+  // DATE (DD / MM / YYYY)
   const dateInput  = document.getElementById("date");
   const isoHidden  = document.getElementById("date_iso");
   const form       = dateInput ? dateInput.closest("form") : null;
 
   if (dateInput) {
-    // Input mask
     dateInput.addEventListener("input", function () {
       let v = this.value.replace(/\D/g, "").slice(0, 8); // digits only
       let out = "";
@@ -93,7 +202,6 @@ document.addEventListener("DOMContentLoaded", function () {
       if (e.key === "Backspace") {
         const v = this.value;
         const pos = this.selectionStart;
-        // if caret is right after the space in " / ", delete the whole separator
         if (pos >= 3 && v.slice(pos - 3, pos) === " /") {
           this.value = v.slice(0, pos - 3) + v.slice(pos);
           this.setSelectionRange(pos - 3, pos - 3);
@@ -103,68 +211,105 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  if (form && dateInput) {
-    form.addEventListener("submit", function () {
-      if (!isoHidden) return;
-      const raw = dateInput.value.replace(/\s/g, "");
-      const parts = raw.split("/");
-      if (parts.length === 3) {
-        const [dd, mm, yyyy] = parts;
-        if (yyyy && mm && dd) {
-          const pad = n => String(n).padStart(2, "0");
-          isoHidden.value = `${yyyy}-${pad(mm)}-${pad(dd)}`;
-        }
-      }
-    });
-  }
-
-  // ---- TIME (HH:MM) ----
-  const timeInput = document.getElementById("time");
-  if (timeInput) {
-    timeInput.addEventListener("input", function () {
-      let v = this.value.replace(/\D/g, "").slice(0, 4); // HHMM
-      this.value = (v.length >= 3) ? v.slice(0,2) + ":" + v.slice(2) : v;
-    });
-
-    // Smooth backspace over ":"
-    timeInput.addEventListener("keydown", function (e) {
-      if (e.key === "Backspace") {
-        const v = this.value;
-        const pos = this.selectionStart;
-        if (pos > 0 && v[pos - 1] === ":") {
-          this.value = v.slice(0, pos - 1) + v.slice(pos);
-          this.setSelectionRange(pos - 1, pos - 1);
-          e.preventDefault();
-        }
-      }
-    });
-  }
 });
 </script>
- 
 
 <script>
-  // Optional: Google Places Autocomplete for a single "Location" field
-  window.initPlaces = function () {
-    const el = document.getElementById("location");
-    if (!el || !window.google || !google.maps?.places) return;
+/**
+ * Minimal client-side validation:
+ * - Date must be a real calendar date in dd/mm/yyyy
+ * - Time (optional) must be HH:MM 00–23:59 if present
+ * - Location must be chosen from autocomplete (place_id present)
+ */
+(function () {
+  const form      = document.querySelector('.chart-form form');
+  const nameEl    = document.getElementById('name');  
+  const dateEl    = document.getElementById('date');
+  const isoEl     = document.getElementById('date_iso');
+  const timeEl    = document.getElementById('time');
+  const locEl     = document.getElementById('location');
+  const placeIdEl = document.getElementById('place_id');
 
-    const ac = new google.maps.places.Autocomplete(el, {
-      types: ["(cities)"],
-      fields: ["place_id","formatted_address","geometry"]
+  function validDateDDMMYYYY(str) {
+    const m = str.match(/^(\d{2})\s*\/\s*(\d{2})\s*\/\s*(\d{4})$/);
+    if (!m) return false;
+    const dd = +m[1], mm = +m[2], yyyy = +m[3];
+    // Basic range checks
+    if (mm < 1 || mm > 12 || dd < 1 || dd > 31) return false;
+    // Build date and verify components (catches 31/02 etc.)
+    const d = new Date(Date.UTC(yyyy, mm - 1, dd));
+    return d.getUTCFullYear() === yyyy && (d.getUTCMonth() + 1) === mm && d.getUTCDate() === dd;
+  }
+
+  function toISOFromDDMMYYYY(str) {
+    const [_, dd, mm, yyyy] = str.match(/^(\d{2})\s*\/\s*(\d{2})\s*\/\s*(\d{4})$/) || [];
+    return yyyy ? `${yyyy}-${mm}-${dd}` : '';
+  }
+
+  function validTimeHHMM(str) {
+    if (!str) return true; // optional
+    return /^([01]\d|2[0-3]):([0-5]\d)$/.test(str);
+  }
+
+  function validateForm() {
+    let ok = true;
+    let firstInvalid = null;
+
+    const setErr = (el, msg) => {
+      el.setCustomValidity(msg);
+      if (!firstInvalid) firstInvalid = el;
+      ok = false;
+    };
+
+    // clear previous messages
+    [nameEl, dateEl, timeEl, locEl].forEach(el => el && el.setCustomValidity(""));
+
+    // 1) NAME
+    if (!nameEl.value.trim()) {
+      setErr(nameEl, 'Enter your name.');
+    }
+
+    // 2) DATE (dd/mm/yyyy) + keep ISO in sync when valid
+    const dateStr = dateEl.value.trim();
+    if (!validDateDDMMYYYY(dateStr)) {
+      setErr(dateEl, 'Enter a valid date (dd/mm/yyyy).');
+    } else {
+      isoEl.value = toISOFromDDMMYYYY(dateStr);
+    }
+
+    // 3) TIME (required, HH:MM)
+    const t = timeEl.value.trim();
+    if (!t) {
+      setErr(timeEl, 'Enter a time (HH:MM).');
+    } else if (!validTimeHHMM(t)) {
+      setErr(timeEl, 'Time must be HH:MM (00–23:59).');
+    }
+
+    // 4) LOCATION (must pick a suggestion → place_id present)
+    if (!locEl.value.trim()) {
+      setErr(locEl, 'Choose a location.');
+    } else if (!placeIdEl.value) {
+      setErr(locEl, 'Please pick a location from the suggestions.');
+    }
+
+    if (!ok) {
+      requestAnimationFrame(() => { firstInvalid && firstInvalid.reportValidity(); });
+    }
+    return ok;
+  }
+
+  // keep your existing submit handler that calls validateForm()
+  // and sets target="_blank" *only* when valid.
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      if (!validateForm()) {
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+      }
+      this.setAttribute('target', '_blank'); // open PDF in new tab on valid submit
     });
-
-    ac.addListener("place_changed", () => {
-      const p = ac.getPlace();
-      document.getElementById("place_id").value   = p.place_id || "";
-      document.getElementById("place_text").value = p.formatted_address || el.value;
-      document.getElementById("lat").value        = p.geometry?.location?.lat?.() ?? "";
-      document.getElementById("lng").value        = p.geometry?.location?.lng?.() ?? "";
-    });
-  };
-
-  document.addEventListener("turbo:load", () => {
-    if (window.google?.maps?.places) window.initPlaces();
-  });
+  }
+})();
+</script> 
 </script>
-
