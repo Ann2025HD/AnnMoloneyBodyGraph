@@ -11,7 +11,8 @@
   <%= javascript_importmap_tags %>
 
   <!-- Keep the iframe background neutral; all form styling lives in shared CSS -->
-  <style>
+  <style nonce="<%= content_security_policy_nonce %>">
+
     html, body { margin:0; padding:0; background:transparent; }
     /* Optional: a neutral wrapper that doesn't impose layout */
     .embed-container { width:100%; background:transparent; }

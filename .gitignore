@@ -67,3 +67,9 @@ public/packs
 node_modules/
 vendor/javascript/
 lib/hdkit/Backup Docs/
+.DS_Store
+debug.txt
+test.pdf
+app/assets/fonts/*.zip
+app/assets/fonts/symbola/
+lib/hdkit/Images/

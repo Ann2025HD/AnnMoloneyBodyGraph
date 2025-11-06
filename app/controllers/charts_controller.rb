@@ -3,8 +3,7 @@
 # CHARTS CONTROLLER — PDF GENERATION (WickedPDF + Prawn)
 #===========================================================
 class ChartsController < ApplicationController
-skip_before_action :verify_authenticity_token, only: :create
-
+  skip_before_action :verify_authenticity_token, only: :create
 
   #---------------------------------------------------------
   # REQUIREMENTS
@@ -27,8 +26,6 @@ skip_before_action :verify_authenticity_token, only: :create
   def edit
     @chart = ChartForm.find(params[:id])
   end
-
-
 
   #===========================================================
   # DEF DOWNLOAD (WickedPDF) — RENDERS PDF VIA HTML TEMPLATE
@@ -54,8 +51,7 @@ skip_before_action :verify_authenticity_token, only: :create
   #===========================================================
   # CREATE — receives the form and redirects to PDF
   #===========================================================
-  
-def create
+  def create
     p = chart_params
 
     name       = p[:name].to_s.strip
@@ -74,8 +70,6 @@ def create
 
     redirect_to chart_pdf_prawn_path(name: name, date: date, time: time, place: place)
   end
-
-
 
   #===========================================================
   # DEF PRAWN — CREATES PDF DIRECTLY (NO HTML) AND SENDS DATA
@@ -173,6 +167,15 @@ def create
         }
       )
       pdf.font "Open Sans"
+    end
+
+    #---------------------------------------------------------
+    # REGISTER SYMBOLS FONT (for planet glyphs only)
+    #---------------------------------------------------------
+    symbol_font = Rails.root.join("app/assets/fonts/Symbola.ttf")
+
+    if File.exist?(symbol_font)
+      pdf.font_families.update("Symbola" => { normal: symbol_font.to_s })
     end
 
     title_text = "HUMAN DESIGN CHART FOR"
@@ -302,24 +305,21 @@ def create
 
     # LEFT column
     pdf.bounding_box([0, start_y], width: left_w, height: 420) do
-      # font for symbols
-      font_path_regular = Rails.root.join("app/assets/fonts/DejaVuSans.ttf")
-      font_path_bold    = Rails.root.join("app/assets/fonts/DejaVuSans-Bold.ttf")
-      font_family = nil
-      if File.exist?(font_path_regular)
-        fam = { normal: font_path_regular.to_s }
-        fam[:bold] = font_path_bold.to_s if File.exist?(font_path_bold)
-        pdf.font_families.update("DejaVuSans" => fam)
-        pdf.font("DejaVuSans")
-        font_family = "DejaVuSans"
-      end
-
       pdf.fill_color "F03020"
       pdf.text "Design", size: 16, align: :center
 
       rows = planet_rows.call(planet_order, chart[:design_planets])
-      rows = rows.map.with_index { |(name, gl), i| i.zero? ? [name, gl] : [glyph[name] || name, gl] }
-      rows.shift
+
+      # Inject Symbola inline ONLY for the glyphs (col 0); keep numbers as-is
+      rows = rows.map.with_index do |(name, gl), i|
+        if i.zero?
+          [name, gl] # header stays plain
+        else
+          glyph_text = glyph[name] || name
+           ["<font name='Symbola' size='14'><color rgb='E3B157'>#{glyph_text}</color></font>", gl]
+        end
+      end
+      rows.shift # drop header row before rendering
 
       pdf.move_down 4
       table_w = (left_w * 0.68).to_i
@@ -327,19 +327,29 @@ def create
       indent_x = base_ix + 8
       c1 = c2 = table_w / 2
 
-      cell_opts = { size: 9, borders: [:top, :bottom, :left, :right], border_color: "e5e5ea", padding: 4 }
-      cell_opts[:font] = font_family if font_family
+      cell_opts = {
+        font: "Open Sans",  # everything defaults to Open Sans
+        size: 9,
+        borders: [:top, :bottom, :left, :right],
+        border_color: "e5e5ea",
+        padding: 4,
+        inline_format: true  # <-- IMPORTANT
+      }
 
       pdf.indent(indent_x) do
         pdf.table rows,
-          header: false, width: table_w, row_colors: %w[ffffff f8f8f8],
-          column_widths: [c1, c2], cell_style: cell_opts do |t|
-            t.cells.style(font: font_family) if font_family
-            t.columns(0).rows(1..-1).style(text_color: "E3B157", size: 14, align: :center, font_style: :bold)
-            t.columns(0).rows(0).style(text_color: "E3B157", size: 14, align: :center, font_style: :bold)
-         end
+              header: false,
+              width: table_w,
+              row_colors: %w[ffffff f8f8f8],
+              column_widths: [c1, c2],
+              cell_style: cell_opts do |t|
+                 # center glyphs vertically and horizontally
+                 t.columns(0).style(align: :center, valign: :center)
+                 # tighten up row height slightly if needed
+              end
       end
     end # END LEFT bounding_box
+
 
     # MIDDLE column
     pdf.bounding_box([left_w + gap, start_y], width: middle_w, height: 420) do
@@ -348,22 +358,18 @@ def create
 
     # RIGHT column
     pdf.bounding_box([left_w + gap + middle_w + gap, start_y], width: right_w, height: 420) do
-      font_path_regular = Rails.root.join("app/assets/fonts/DejaVuSans.ttf")
-      font_path_bold    = Rails.root.join("app/assets/fonts/DejaVuSans-Bold.ttf")
-      font_family = nil
-      if File.exist?(font_path_regular)
-        fam = { normal: font_path_regular.to_s }
-        fam[:bold] = font_path_bold.to_s if File.exist?(font_path_bold)
-        pdf.font_families.update("DejaVuSans" => fam)
-        pdf.font("DejaVuSans")
-        font_family = "DejaVuSans"
-      end
-
       pdf.fill_color "111111"
       pdf.text "Personality", size: 16, align: :center
 
       rows = planet_rows.call(planet_order, chart[:personality_planets])
-      rows = rows.map.with_index { |(name, gl), i| i.zero? ? [name, gl] : [gl, (glyph[name] || name)] }
+      rows = rows.map.with_index do |(name, gl), i|
+        if i.zero?
+          [name, gl]  # header stays plain
+        else
+          glyph_text = glyph[name] || name
+         [gl, "<font name='Symbola' size='14'><color rgb='E3B157'>#{glyph_text}</color></font>"]
+        end
+      end
       rows.shift
 
       pdf.move_down 4
@@ -372,20 +378,28 @@ def create
       indent_x = base_ix + 8
       c1 = c2 = table_w / 2
 
-      cell_opts = { size: 9, borders: [:top, :bottom, :left, :right], border_color: "e5e5ea", padding: 4 }
-      cell_opts[:font] = font_family if font_family
-
+      cell_opts = {
+        font: "Open Sans",
+        size: 9,
+        borders: [:top, :bottom, :left, :right],
+        border_color: "e5e5ea",
+        padding: 4,
+        inline_format: true  # <-- IMPORTANT
+      }
+    
       pdf.indent(indent_x) do
         pdf.table rows,
-          header: false, width: table_w, row_colors: %w[ffffff f8f8f8],
-          column_widths: [c1, c2], cell_style: cell_opts do |t|
-            t.cells.style(font: font_family) if font_family
-            t.columns(1).rows(1..-1).style(text_color: "E3B157", size: 14, align: :center, font_style: :bold)
-            t.columns(1).rows(0).style(text_color: "E3B157", size: 14, align: :center, font_style: :bold)
- 
+              header: false,
+              width: table_w,
+              row_colors: %w[ffffff f8f8f8],
+              column_widths: [c1, c2],
+              cell_style: cell_opts do |t|
+              # center glyphs vertically and horizontally
+              t.columns(1).style(align: :center, valign: :center)
+            end
           end
-      end
     end # END RIGHT bounding_box
+
 
     #---------------------------------------------------------
     # FOOTER
@@ -404,18 +418,16 @@ def create
               disposition: (params[:download] == "1" ? "attachment" : "inline")
   end # download_prawn
 
- 
-
-
   # === Private helpers ===
-   private
+  private
 
-   # Strong params (unscoped form version)
-   def chart_params
+  # Strong params (unscoped form version)
+  def chart_params
     params.permit(:name, :date, :date_iso, :time, :location, :place_id, :place_text, :lat, :lng)
-   end
-   # Normalizes "H", "HH", "HHMM", "HH:MM" -> "HH:MM" or nil
-   def normalize_time(val)
+  end
+
+  # Normalizes "H", "HH", "HHMM", "HH:MM" -> "HH:MM" or nil
+  def normalize_time(val)
     s = val.to_s.strip
     return nil if s.blank?
 
@@ -426,9 +438,9 @@ def create
     when 3 then h = digits[0,1].to_i; m = digits[1,2].to_i
     when 4 then h = digits[0,2].to_i; m = digits[2,2].to_i
     else return nil
-   end
+    end
 
-   return nil if h > 23 || m > 59
-   format("%02d:%02d", h, m)
+    return nil if h > 23 || m > 59
+    format("%02d:%02d", h, m)
   end
 end
