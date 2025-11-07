@@ -412,10 +412,16 @@ class ChartsController < ApplicationController
     #---------------------------------------------------------
     # SEND PDF
     #---------------------------------------------------------
+ 
+
+    ua = request.user_agent.to_s
+    mobile_like = ua.match?(/Android|iPhone|iPad|iPod|Mobile/i)
+
     send_data pdf.render,
-              filename: "HumanDesign_#{name.to_s.parameterize}.pdf",
-              type: "application/pdf",
-              disposition: (params[:download] == "1" ? "attachment" : "inline")
+      filename: "#{params[:name].presence || ' Human Design'} Chart.pdf",
+      type: "application/pdf",
+      disposition: mobile_like ? "attachment" : "inline"
+
   end # download_prawn
 
   # === Private helpers ===
@@ -443,4 +449,5 @@ class ChartsController < ApplicationController
     return nil if h > 23 || m > 59
     format("%02d:%02d", h, m)
   end
+
 end
