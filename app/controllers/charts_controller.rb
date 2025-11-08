@@ -51,16 +51,22 @@ class ChartsController < ApplicationController
   #===========================================================
   # CREATE — receives the form and redirects to PDF
   #===========================================================
-  def create
+   def create
     p = chart_params
 
     name       = p[:name].to_s.strip
-    date       = (p[:date_iso].presence || p[:date].to_s.strip)
+    date_input = (p[:date_iso].presence || p[:date].to_s).strip
     time_raw   = p[:time].to_s.strip
     typed_loc  = p[:location].to_s.strip
     place_text = p[:place_text].to_s.strip
 
-    if name.blank? || date.blank? || typed_loc.blank?
+    # Accept both "YYYY-MM-DD" and "DD / MM / YYYY"
+    if date_input =~ /\A\d{2}\s*\/\s*\d{2}\s*\/\s*\d{4}\z/
+      dd, mm, yyyy = date_input.scan(/\d+/)
+      date_input = "#{yyyy}-#{mm}-#{dd}"
+    end
+
+    if name.blank? || date_input.blank? || typed_loc.blank?
       flash.now[:alert] = "Please fill name, birth date, and location."
       return render :new, status: :unprocessable_entity
     end
@@ -68,8 +74,14 @@ class ChartsController < ApplicationController
     time  = normalize_time(time_raw) || "12:00"
     place = place_text.presence || typed_loc
 
-    redirect_to chart_pdf_prawn_path(name: name, date: date, time: time, place: place)
+    redirect_to chart_pdf_prawn_path(name: name, date: date_input, time: time, place: place)
   end
+
+
+
+
+
+
 
   #===========================================================
   # DEF PRAWN — CREATES PDF DIRECTLY (NO HTML) AND SENDS DATA
@@ -84,6 +96,14 @@ class ChartsController < ApplicationController
     place = params[:place].to_s
     tz    = params[:tz].presence || @chart&.timezone_iana || "UTC"
 
+
+    # --- Normalize date to ISO (YYYY-MM-DD) ---
+    date_normalized = date.strip
+    if date_normalized =~ /\A\d{2}\s*\/\s*\d{2}\s*\/\s*\d{4}\z/
+      dd, mm, yyyy = date_normalized.scan(/\d+/)
+      date_normalized = "#{yyyy}-#{mm}-#{dd}"
+    end
+
     #---------------------------------------------------------
     # CALL NODE CLI (BODYGRAPH + DATA) AND CAPTURE JSON OUTPUT
     #---------------------------------------------------------
@@ -93,7 +113,7 @@ class ChartsController < ApplicationController
 
     cmd = [
       node_bin, cli.to_s,
-      "--date=#{date}",
+      "--date=#{date_normalized}",
       "--time=#{time}",
       "--place=#{place}",
       "--tz=#{tz}",
@@ -415,7 +435,7 @@ class ChartsController < ApplicationController
  
 
     ua = request.user_agent.to_s
-    mobile_like = ua.match?(/Android|iPhone|iPad|iPod|Mobile|SamsungBrowser|Pixel|Opera Mini|    IEMobile/i)
+    mobile_like = ua.match?(/Android|iPhone|iPad|iPod|Mobile|SamsungBrowser|Pixel|Opera Mini|IEMobile/i)
 
     content_type = mobile_like ? "application/octet-stream" : "application/pdf"
     disposition  = mobile_like ? "attachment" : "inline"
