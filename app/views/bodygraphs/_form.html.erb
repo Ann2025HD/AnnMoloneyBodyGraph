@@ -303,10 +303,10 @@
         e.stopPropagation();
         return;
       }
-      this.setAttribute('target', '_blank');
+      const inIframe = window.self !== window.top;
+      this.setAttribute('target', inIframe ? '_top' : '_self');
+
     });
   }
 })();
-</script>
-
 </script>
