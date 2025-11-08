@@ -49,8 +49,7 @@
       method: :post,
       local: true,
       data: { turbo: false },
-      html: { novalidate: true, autocomplete: "off", target: "_blank" } do |f| %>
-<%# no target: "_blank" %>
+      html: { novalidate: true, autocomplete: "off" } do |f| %>
 
     <%# NAME (full width) %>
     <div class="field">
@@ -220,17 +219,17 @@
 </script>
 
 
-
-
 <script nonce="<%= content_security_policy_nonce %>">
 (function () {
   const form      = document.querySelector('.chart-form form');
-  const nameEl    = document.getElementById('name');  
+  const nameEl    = document.getElementById('name');
   const dateEl    = document.getElementById('date');
   const isoEl     = document.getElementById('date_iso');
   const timeEl    = document.getElementById('time');
   const locEl     = document.getElementById('location');
   const placeIdEl = document.getElementById('place_id');
+
+  if (!form) return; // safety
 
   function validDateDDMMYYYY(str) {
     const m = str.match(/^(\d{2})\s*\/\s*(\d{2})\s*\/\s*(\d{4})$/);
@@ -249,74 +248,52 @@
   }
 
   function validTimeHHMM(str) {
-    if (!str) return true; // allow blank if you decide time is optional
     return /^([01]\d|2[0-3]):([0-5]\d)$/.test(str);
   }
 
   function validateForm() {
     let ok = true;
     let firstInvalid = null;
-
-    const setErr = (el, msg) => {
-      el.setCustomValidity(msg);
-      if (!firstInvalid) firstInvalid = el;
-      ok = false;
-    };
-
+    const setErr = (el, msg) => { el.setCustomValidity(msg); if (!firstInvalid) firstInvalid = el; ok = false; };
     [nameEl, dateEl, timeEl, locEl].forEach(el => el && el.setCustomValidity(""));
 
-    // 1) NAME
+    // 1) Name
     if (!nameEl.value.trim()) setErr(nameEl, 'Enter your name.');
 
-    // 2) DATE → mirror ISO when valid
+    // 2) Date
     const dateStr = dateEl.value.trim();
     if (!validDateDDMMYYYY(dateStr)) {
       setErr(dateEl, 'Enter a valid date (dd/mm/yyyy).');
     } else {
       isoEl.value = toISOFromDDMMYYYY(dateStr);
+      const y = parseInt(isoEl.value.slice(0,4), 10);
+      if (y < 1800 || y > 2050) setErr(dateEl, 'Year must be 1800–2050.');
     }
 
-    // 3) TIME (currently required in your form markup; change later if desired)
+    // 3) Time
     const t = timeEl.value.trim();
-    if (!t) {
-      setErr(timeEl, 'Enter a time (HH:MM).');
-    } else if (!validTimeHHMM(t)) {
-      setErr(timeEl, 'Time must be HH:MM (00–23:59).');
-    }
+    if (!t) setErr(timeEl, 'Enter a time (HH:MM).');
+    else if (!validTimeHHMM(t)) setErr(timeEl, 'Time must be HH:MM (00–23:59).');
 
-    // 4) LOCATION must be from suggestions → needs place_id
-    if (!locEl.value.trim()) {
-      setErr(locEl, 'Choose a location.');
-    } else if (!placeIdEl.value) {
-      setErr(locEl, 'Please pick a location from the suggestions.');
-    }
+    // 4) Location (must come from suggestions)
+    if (!locEl.value.trim()) setErr(locEl, 'Choose a location.');
+    else if (!placeIdEl.value) setErr(locEl, 'Please pick a location from the suggestions.');
 
     if (!ok) {
-      // Key change: ask the FORM to show messages (works reliably in all browsers)
       form.reportValidity();
       if (firstInvalid) firstInvalid.focus();
     }
     return ok;
   }
 
+    form.addEventListener('submit', function (e) {
+      if (!validateForm()) {
+        e.preventDefault();
+        e.stopPropagation();
+        return; // 
+      }
+      this.setAttribute('target', '_blank'); // only for valid submits
+    });
 
-  form.addEventListener('submit', function (e) {
-    if (!validateForm()) {
-      e.preventDefault();
-      e.stopPropagation();
-      alert("We couldn't submit yet:\n" +
-          "- Name: " + (nameEl?.value || "") + "\n" +
-          "- Date: " + (dateEl?.value || "") + "\n" +
-          "- Time: " + (timeEl?.value || "") + "\n" +
-          "- Location: " + (locEl?.value || "") + "\n" +
-          "- place_id present: " + (!!placeIdEl?.value));
-      return;
-    }
-    this.setAttribute('target', '_blank');
-  });
-
-
-
-  }
 })();
 </script>
