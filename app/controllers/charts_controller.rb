@@ -74,7 +74,7 @@ class ChartsController < ApplicationController
     time  = normalize_time(time_raw) || "12:00"
     place = place_text.presence || typed_loc
 
-    redirect_to chart_ready_path(name: name, date: date_input, time: time, place: place)
+    redirect_to chart_pdf_prawn_path(name: name, date: date_input, time: time, place: place)
 
   end
 
@@ -438,20 +438,11 @@ class ChartsController < ApplicationController
     #---------------------------------------------------------
     # SEND PDF
     #---------------------------------------------------------
- 
-
-    ua = request.user_agent.to_s
-    mobile_like = ua.match?(/Android|iPhone|iPad|iPod|Mobile|SamsungBrowser|Pixel|Opera Mini|IEMobile/i)
-
-    content_type = mobile_like ? "application/octet-stream" : "application/pdf"
-    disposition  = mobile_like ? "attachment" : "inline"
-
-    headers["Content-Transfer-Encoding"] = "binary" if mobile_like
 
     send_data pdf.render,
       filename: "#{params[:name].presence || 'Human Design'} Chart.pdf",
-      type: content_type,
-      disposition: disposition
+      type: "application/pdf",
+      disposition: "inline"
 
   end # download_prawn
 
