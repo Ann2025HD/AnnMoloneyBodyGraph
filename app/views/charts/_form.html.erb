@@ -296,17 +296,24 @@
     return ok;
   }
 
-  if (form) {
-    form.addEventListener('submit', function (e) {
-      if (!validateForm()) {
-        e.preventDefault();
-        e.stopPropagation();
-        return;
-      }
-      const inIframe = window.self !== window.top;
-      this.setAttribute('target', inIframe ? '_top' : '_self');
 
-    });
+  form.addEventListener('submit', function (e) {
+    if (!validateForm()) {
+      e.preventDefault();
+      e.stopPropagation();
+      alert("We couldn't submit yet:\n" +
+          "- Name: " + (nameEl?.value || "") + "\n" +
+          "- Date: " + (dateEl?.value || "") + "\n" +
+          "- Time: " + (timeEl?.value || "") + "\n" +
+          "- Location: " + (locEl?.value || "") + "\n" +
+          "- place_id present: " + (!!placeIdEl?.value));
+      return;
+    }
+    this.setAttribute('target', '_blank');
+  });
+
+
+
   }
 })();
 </script>
