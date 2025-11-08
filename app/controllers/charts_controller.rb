@@ -74,11 +74,17 @@ class ChartsController < ApplicationController
     time  = normalize_time(time_raw) || "12:00"
     place = place_text.presence || typed_loc
 
-    redirect_to chart_pdf_prawn_path(name: name, date: date_input, time: time, place: place)
+    redirect_to chart_ready_path(name: name, date: date_input, time: time, place: place)
+
   end
 
-
-
+  def ready
+    @name  = params[:name].to_s
+    @date  = params[:date].to_s
+    @time  = params[:time].to_s
+    @place = params[:place].to_s
+    render layout: (params[:embed].present? ? "embed" : "application")
+  end
 
 
 
