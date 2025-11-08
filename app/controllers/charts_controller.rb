@@ -415,12 +415,17 @@ class ChartsController < ApplicationController
  
 
     ua = request.user_agent.to_s
-    mobile_like = ua.match?(/Android|iPhone|iPad|iPod|Mobile/i)
+    mobile_like = ua.match?(/Android|iPhone|iPad|iPod|Mobile|SamsungBrowser|Pixel|Opera Mini|    IEMobile/i)
+
+    content_type = mobile_like ? "application/octet-stream" : "application/pdf"
+    disposition  = mobile_like ? "attachment" : "inline"
+
+    headers["Content-Transfer-Encoding"] = "binary" if mobile_like
 
     send_data pdf.render,
-      filename: "#{params[:name].presence || ' Human Design'} Chart.pdf",
-      type: "application/pdf",
-      disposition: mobile_like ? "attachment" : "inline"
+      filename: "#{params[:name].presence || 'Human Design'} Chart.pdf",
+      type: content_type,
+      disposition: disposition
 
   end # download_prawn
 
