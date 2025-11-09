@@ -15,6 +15,29 @@ class ChartsController < ApplicationController
   require "prawn-svg"
   require "csv"
 
+
+
+  #----------------------------
+    # SET UP PLANET GLYPHS
+ #--------------------------
+
+
+PLANET_PNG_BY_KEY = {
+  'sun'         => 'sun.png',
+  'earth'       => 'earth.png',
+  'moon'        => 'moon.png',
+  'north node'  => 'north-node.png',
+  'south node'  => 'south-node.png',
+  'mercury'     => 'mercury.png',
+  'venus'       => 'venus.png',
+  'mars'        => 'mars.png',
+  'jupiter'     => 'jupiter.png',
+  'saturn'      => 'saturn.png',
+  'uranus'      => 'uranus.png',
+  'neptune'     => 'neptune.png',
+  'pluto'       => 'pluto.png'
+}
+
   #===========================================================
   # NEW — SHOWS THE SIMPLE (NON-POPUP) FORM
   #===========================================================
@@ -57,13 +80,26 @@ class ChartsController < ApplicationController
     name       = p[:name].to_s.strip
     date_input = (p[:date_iso].presence || p[:date].to_s).strip
     time_raw   = p[:time].to_s.strip
+    place_id  = p[:place_id].to_s.strip    
     typed_loc  = p[:location].to_s.strip
     place_text = p[:place_text].to_s.strip
+
+    if place_id.blank?
+      flash.now[:alert] = "Please choose a location from the suggestions."
+      return render :new, status: :unprocessable_entity
+    end
+    place = place_text.presence || typed_loc
 
     # Accept both "YYYY-MM-DD" and "DD / MM / YYYY"
     if date_input =~ /\A\d{2}\s*\/\s*\d{2}\s*\/\s*\d{4}\z/
       dd, mm, yyyy = date_input.scan(/\d+/)
       date_input = "#{yyyy}-#{mm}-#{dd}"
+    end
+
+    year = date_input[0,4].to_i
+    if year < 1800 || year > 2050
+      flash.now[:alert] = "Please enter a year between 1800 and 2050."
+      return render :new, status: :unprocessable_entity
     end
 
     if name.blank? || date_input.blank? || typed_loc.blank?
@@ -109,6 +145,11 @@ class ChartsController < ApplicationController
       dd, mm, yyyy = date_normalized.scan(/\d+/)
       date_normalized = "#{yyyy}-#{mm}-#{dd}"
     end
+    yr = date_normalized[0,4].to_i
+    if yr < 1800 || yr > 2050
+      return render plain: "Sorry — supported years are 1800–2050.", status: :unprocessable_entity
+    end
+
 
     #---------------------------------------------------------
     # CALL NODE CLI (BODYGRAPH + DATA) AND CAPTURE JSON OUTPUT
@@ -195,14 +236,11 @@ class ChartsController < ApplicationController
       pdf.font "Open Sans"
     end
 
-    #---------------------------------------------------------
-    # REGISTER SYMBOLS FONT (for planet glyphs only)
-    #---------------------------------------------------------
-    symbol_font = Rails.root.join("app/assets/fonts/Symbola.ttf")
+ 
 
-    if File.exist?(symbol_font)
-      pdf.font_families.update("Symbola" => { normal: symbol_font.to_s })
-    end
+# =========================
+# FONT DIAGNOSTIC — TOP OF PAGE
+# =========================
 
     title_text = "HUMAN DESIGN CHART FOR"
     name_text  = name.to_s.split.map(&:capitalize).join(" ")
@@ -215,7 +253,7 @@ class ChartsController < ApplicationController
     born_line = [formatted_date, time, place].compact.join(" | ")
 
     # float logo
-    logo_path   = Rails.root.join("lib/hdkit/images/main-logo.png")
+    logo_path   = Rails.root.join("app/assets/images/main-logo.png")
     logo_w      = 120
     logo_h      = 90
     logo_pad    = 8
@@ -329,75 +367,69 @@ class ChartsController < ApplicationController
       "Earth"=>"♁","North Node"=>"☊","South Node"=>"☋"
     }
 
-    # LEFT column
-    pdf.bounding_box([0, start_y], width: left_w, height: 420) do
+   #------------
+   # LEFT COLUMN
+   #------------
+
+   pdf.bounding_box([0, start_y], width: left_w, height: 420) do
       pdf.fill_color "F03020"
       pdf.text "Design", size: 16, align: :center
 
       rows = planet_rows.call(planet_order, chart[:design_planets])
-
-      # Inject Symbola inline ONLY for the glyphs (col 0); keep numbers as-is
-      rows = rows.map.with_index do |(name, gl), i|
-        if i.zero?
-          [name, gl] # header stays plain
-        else
-          glyph_text = glyph[name] || name
-           ["<font name='Symbola' size='14'><color rgb='E3B157'>#{glyph_text}</color></font>", gl]
-        end
-      end
-      rows.shift # drop header row before rendering
+      rows.shift # drop header
 
       pdf.move_down 4
       table_w = (left_w * 0.68).to_i
       base_ix = (left_w - table_w) / 2
-      indent_x = base_ix + 8
+      indent_x = base_ix -10
       c1 = c2 = table_w / 2
 
       cell_opts = {
-        font: "Open Sans",  # everything defaults to Open Sans
+        font: "Open Sans",
         size: 9,
         borders: [:top, :bottom, :left, :right],
         border_color: "e5e5ea",
         padding: 4,
-        inline_format: true  # <-- IMPORTANT
+        inline_format: true
       }
+      # turn [planet, value] into [image_cell, value]
+      rows_with_icons = rows.map do |name, gl|
+          [icon_cell(pdf, name, icon_width_px: 18), "<b>#{gl}</b>"]
+      end
 
       pdf.indent(indent_x) do
-        pdf.table rows,
+        pdf.table rows_with_icons,
               header: false,
               width: table_w,
               row_colors: %w[ffffff f8f8f8],
               column_widths: [c1, c2],
               cell_style: cell_opts do |t|
-                 # center glyphs vertically and horizontally
-                 t.columns(0).style(align: :center, valign: :center)
-                 # tighten up row height slightly if needed
-              end
-      end
-    end # END LEFT bounding_box
+          t.columns(0).style(align: :center, valign: :center)
+        end  # <- closes table
+      end    # <- closes indent
+    end      # <- closes bounding_box
 
 
-    # MIDDLE column
-    pdf.bounding_box([left_w + gap, start_y], width: middle_w, height: 420) do
+    #----------------
+    # MIDDLE COLUMN
+    #----------------
+
+   pdf.bounding_box([left_w + gap, start_y], width: middle_w, height: 420) do
       pdf.svg chart[:svg].to_s, width: (middle_w - 12), position: :center, vposition: :top
     end # END MIDDLE bounding_box
 
-    # RIGHT column
+   #----------------
+    # RIGHT COLUMN
+   #----------------
+
     pdf.bounding_box([left_w + gap + middle_w + gap, start_y], width: right_w, height: 420) do
       pdf.fill_color "111111"
       pdf.text "Personality", size: 16, align: :center
 
       rows = planet_rows.call(planet_order, chart[:personality_planets])
-      rows = rows.map.with_index do |(name, gl), i|
-        if i.zero?
-          [name, gl]  # header stays plain
-        else
-          glyph_text = glyph[name] || name
-         [gl, "<font name='Symbola' size='14'><color rgb='E3B157'>#{glyph_text}</color></font>"]
-        end
-      end
-      rows.shift
+      rows.shift  # drop header
 
+  
       pdf.move_down 4
       table_w = (right_w * 0.68).to_i
       base_ix = (right_w - table_w) / 2
@@ -410,22 +442,26 @@ class ChartsController < ApplicationController
         borders: [:top, :bottom, :left, :right],
         border_color: "e5e5ea",
         padding: 4,
-        inline_format: true  # <-- IMPORTANT
+        inline_format: true
       }
-    
+
+      # Build the rows with an image cell in column 1
+      rows_with_icons = rows.map do |name, gl|
+         ["<b>#{gl}</b>", icon_cell(pdf, name, icon_width_px: 18)]
+      end   
+
+
       pdf.indent(indent_x) do
-        pdf.table rows,
+        pdf.table rows_with_icons,
               header: false,
               width: table_w,
               row_colors: %w[ffffff f8f8f8],
               column_widths: [c1, c2],
               cell_style: cell_opts do |t|
-              # center glyphs vertically and horizontally
-              t.columns(1).style(align: :center, valign: :center)
-            end
-          end
-    end # END RIGHT bounding_box
-
+          t.columns(1).style(align: :center, valign: :center)
+        end
+      end
+    end
 
     #---------------------------------------------------------
     # FOOTER
@@ -446,8 +482,52 @@ class ChartsController < ApplicationController
 
   end # download_prawn
 
-  # === Private helpers ===
-  private
+   #---------------------------------------------------------
+   # === PRIVATE HELPERS ===
+   #---------------------------------------------------------
+
+   private
+
+  def icon_cell(pdf, planet_name, icon_width_px: 22)
+    path = planet_png_path(planet_name)
+    return pdf.make_cell(content: "") unless path
+
+    pdf.make_cell(
+      image: path.to_s,
+      fit: [icon_width_px, icon_width_px], # keeps it centered
+      position: :center,
+      vposition: :center,
+      padding: 4
+    )
+  end
+
+  def normalize_planet_label(s)
+    s.to_s.strip.downcase.gsub(/\s+/, ' ') # squeeze spaces; keep words
+  end
+
+  def planet_png_path(name)
+    key = normalize_planet_label(name)
+    fname = PLANET_PNG_BY_KEY[key]
+    return nil unless fname
+    path = Rails.root.join("app/assets/images/planets", fname)
+    File.exist?(path) ? path : nil
+  end
+
+  def draw_icon_in_cell(pdf, cell, path, width_px: 22)
+    if path
+      cell.content = ""  # we draw manually
+      cell.instance_eval do
+        @draw_content = proc do
+          pdf.image path.to_s, width: width_px, position: :center
+        end
+      end
+    else
+      # show the label so you can see what failed (helps debugging)
+      # comment this out later if you prefer a blank
+      cell.content = cell.content.to_s
+    end
+  end
+
 
   # Strong params (unscoped form version)
   def chart_params
