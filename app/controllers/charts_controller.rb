@@ -110,8 +110,7 @@ PLANET_PNG_BY_KEY = {
     time  = normalize_time(time_raw) || "12:00"
     place = place_text.presence || typed_loc
 
-    redirect_to chart_pdf_prawn_path(name: name, date: date_input, time: time, place: place)
-
+    redirect_to chart_result_path(name: name, date: date_input, time: time, place: place)
   end
 
   def ready
@@ -124,6 +123,64 @@ PLANET_PNG_BY_KEY = {
 
 
 
+
+  #===========================================================
+  # DEF RESULTS — SENDS TO HTML FILE
+  #===========================================================
+
+  def result
+    name  = params[:name].presence || "Test"
+    date  = params[:date].to_s
+    time  = params[:time].presence || "12:00"
+    place = params[:place].to_s
+    tz    = params[:tz].presence || "UTC"
+
+    cli = Rails.root.join("lib/hdkit/cli.mjs")
+    node_bin = `which node`.to_s.strip
+    node_bin = "/opt/homebrew/bin/node" if node_bin.empty?
+
+    cmd = [
+      node_bin, cli.to_s,
+      "--name=#{name}",
+      "--date=#{date}",
+      "--time=#{time}",
+      "--place=#{place}",
+      "--tz=#{tz}",
+      "--debug=true"
+    ]
+
+    out, err, status = Open3.capture3(*cmd)
+
+    unless status.success? && out.present?
+      return render plain: "Chart generator error:\n#{err.presence || out.presence || 'no output'}",
+                  status: :bad_gateway
+    end
+
+    data = JSON.parse(out)
+Rails.logger.debug "SIGNATURE FROM NODE: #{data['signature'].inspect}"
+Rails.logger.debug "ALL DATA KEYS FROM NODE: #{data.keys.inspect}"
+
+    @name  = name
+    @date  = date
+    @time  = time
+    @place = place
+
+    @chart = {
+      type: data["type"],
+      profile: data["profile"],
+      definition: data["definition"],
+      authority: data["authority"],
+      strategy: data["strategy"],
+      signature: data["signature"] || signature_for(data["type"]),
+      not_self: data["notSelf"] || data["not_self"],
+      cross: full_incarnation_cross(data),
+      design_planets: data["designPlanets"] || [],
+      personality_planets: data["personalityPlanets"] || [],
+      svg: data["svg"].to_s
+    }
+
+    render layout: (params[:embed].present? ? "embed" : "application")
+  end
 
   #===========================================================
   # DEF PRAWN — CREATES PDF DIRECTLY (NO HTML) AND SENDS DATA
@@ -560,4 +617,54 @@ PLANET_PNG_BY_KEY = {
     format("%02d:%02d", h, m)
   end
 
+
+def signature_for(type)
+  case type.to_s.downcase
+  when "generator", "manifesting generator"
+    "Satisfaction"
+  when "manifestor"
+    "Peace"
+  when "projector"
+    "Success"
+  when "reflector"
+    "Surprise"
+  end
+end
+
+  def full_incarnation_cross(chart)
+    cross_text = chart["cross"].to_s
+
+    angle_code =
+      if cross_text =~ /right angle/i
+        "R"
+      elsif cross_text =~ /juxtaposition/i
+        "J"
+      elsif cross_text =~ /left angle/i
+        "L"
+      end
+
+    gate_from = ->(pairs, planet_name) do
+      v = pairs.to_h[planet_name]
+      return nil unless v
+      v.to_s[/\d+/].to_i
+    end
+
+    psun   = gate_from.call(chart["personalityPlanets"] || [], "Sun")
+    pearth = gate_from.call(chart["personalityPlanets"] || [], "Earth")
+    dsun   = gate_from.call(chart["designPlanets"] || [], "Sun")
+    dearth = gate_from.call(chart["designPlanets"] || [], "Earth")
+
+    gates = [psun, pearth, dsun, dearth].compact
+
+    row =
+      if angle_code && gates.size == 4 && gates.all?(&:positive?)
+        IncarnationCrossIndex.find(angle: angle_code, gates: gates)
+      end
+
+    if row
+      "#{row.description} (#{row.g1}/#{row.g2} | #{row.g3}/#{row.g4})"
+    else
+      chart["cross"]
+    end
+  end
 end

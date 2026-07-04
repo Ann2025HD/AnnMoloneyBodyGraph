@@ -1,0 +1,737 @@
+<%# ========================
+    CSS STYLES
+    ======================== %>
+
+<style>
+
+  /*--------------------------------
+  # PAGE LAYOUT
+  --------------------------------*/
+  .chart-result {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 20px 70px;
+    color: #555555;
+       font-family: "Open Sans",serif;
+ 
+  }
+ 
+  .chart-header {
+    margin-bottom: 22px;
+  }
+
+  .chart-header h1 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 600;
+  }
+
+  .chart-layout {
+    display: grid;
+    grid-template-columns: 170px 460px 170px;
+    gap: 30px;
+    justify-content: center;
+    align-items: start;
+  }
+
+  /*--------------------------------
+   # CHART TITLE
+   --------------------------------*/
+  .chart-title {
+    text-align: center;
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin: 0 0 30px 0;
+  }
+
+  .chart-title-card {
+    max-width: 900px;
+    margin: 20px auto 35px auto;
+    padding: 40px 30px;
+    background: #F8F4EC;
+    border: 2px solid #C9A96A;
+    border-radius: 18px;
+    text-align: center;
+  }
+
+  .chart-title {
+    font-family: "Cormorant Garamond",serif;
+    font-size: 3rem;
+    letter-spacing: 0.04em;
+    margin: 0;
+    font-weight: 500;
+    font-variant: small-caps;
+    color: #C8A46B; /* optional: a warm taupe to echo your   site's palette */
+  }
+
+  /*--------------------------------
+    # DESIGN / PERSONALITY PANELS
+  --------------------------------*/
+  
+  .panel {
+    border: none;   
+    border-radius: 14px;
+    padding: 22px 24px;
+    background: #fff;
+  }
+
+  .panel h2,
+
+  .panel h3 {
+    margin: 0 0 22px;
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  .detail-row {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    column-gap: 18px;
+    margin-bottom: 18px;
+    font-size: 20px;
+    line-height: 1.35;
+  }
+
+  .label {
+    font-weight: 300;
+  }
+
+  .detail-value {
+    font-weight: 400;
+  }
+
+  .planet-row {
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    align-items: center;
+    margin-bottom: 14px;
+    font-size: 18px;
+    line-height: 1.25;
+    font-family: "Arial",serif;
+  }
+
+  .planet-symbol {
+    font-size: 26px;
+    line-height: 1;
+    text-align: center;
+    font-family: "Helvetica",serif;
+  }
+  /*--------------------------------
+    # BODYGRAPH
+  --------------------------------*/
+  .bodygraph {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    border: none;   
+    padding: 20px;
+    min-height: 560px;
+  }
+
+  .bodygraph svg {
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    display: block;
+  }
+
+
+  /*--------------------------------
+    # DESIGN / PERSONALITY COLOURS
+  --------------------------------*/
+  .design-panel .planet-symbol {
+    color: #d40000;
+    
+  }
+  .design-panel .planet-row {
+    color: #d40000;
+  }
+  .personality-panel .planet-symbol {
+    color: #000;
+  }
+
+ 
+
+  /*--------------------------------
+    # CHART PROPERTIES
+  --------------------------------*/
+ 
+  .properties-section {
+      max-width: 1080px;
+      margin: -5px auto 0 auto;
+      padding: 0;
+      transform: translateX(110px);
+}
+
+  .properties-two-column {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 110px;
+  }
+
+  .property-row {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    column-gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .properties-two-column > div:nth-child(2) .property-row {
+    grid-template-columns: 140px 1fr;
+  }
+
+  .property-label {
+    font-weight: 300;
+    color: #777;
+    font-size: 18px;
+    font-family: "Helvetica",sans-serif;
+  }
+
+  .property-value {
+    font-weight: 500;
+    color: #444;
+    font-size: 18px;
+    font-family: "Helvetica",sans-serif;
+  }
+
+ 
+  .birth-details-line {
+    margin-top: 28px;
+    padding-top: 16px;
+    border-top: 1px solid #ddd;
+    display: flex;
+    justify-content: center;
+    gap: 22px;
+    flex-wrap: wrap;
+    font-size: 15px;
+    color: #777;
+  }
+
+
+  /*--------------------------------
+    # GUIDE SIGNUP SECTION
+  --------------------------------*/
+
+  .chart-guide-signup {
+    margin-left: 0px;
+    margin-right: 0px;
+    padding: 60px 80px;
+    background: #F3ECE3;
+    border-radius: 22px;
+    text-align: center;
+  }
+
+  .signup-title {
+    margin: 0 0 22px 0;
+    font-size: 40px;
+    font-style: italic;
+    font-weight: 500;
+    color: #7C7272;
+    font-family: "Times", serif;
+    font-style: italic;
+  }
+
+  .signup-subtitle {
+    margin: 0 0 45px 0;
+    font-size: 40px;
+    font-style: italic;
+    font-weight: 500;
+    color: #7C7272;
+    font-family: "Times", serif;
+  }
+
+  .signup-image img {
+    width: 520px;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 60px;
+  }
+
+  .signup-content {
+    display: grid;
+    grid-template-columns: 520px 560px;
+    gap: 80px;
+    align-items: start;
+    justify-content: center;
+    margin-top: -60px;
+  }
+
+  .signup-intro {
+    max-width: 520px;
+    font-family: "Times", serif;
+    margin: 0 auto 35px auto;
+    font-size: 34px;
+    line-height: 1.25;
+    font-style: italic;
+    font-weight: 500;
+    color: #7C7272;
+  }
+
+  .signup-description {
+    max-width: 520px;
+    font-family: "Cormorant", serif;
+    margin: 0 auto 35px auto;
+    font-size: 30px;
+    line-height: 1.35;
+    color: #7C7272;
+  }
+
+  .signup-copy {
+    text-align: center;
+    margin-top: 80px;
+  }
+
+  .signup-form {
+    max-width: 430px;
+    margin: 0 auto;
+  }
+
+  /*--------------------------------
+    # RESPONSIVE STYLES
+   --------------------------------*/
+ 
+* {
+  box-sizing: border-box;
+}
+
+@media (max-width: 1100px) {
+
+  .chart-guide-signup {
+    width: 100%;
+    padding: clamp(2rem, 5vw, 3rem);
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .signup-content {
+    grid-template-columns: 1fr;
+    gap: clamp(2rem, 5vw, 3rem);
+    margin-top: 0;
+  }
+
+  .signup-image img {
+    width: min(85%, 460px);
+    height: auto;
+    margin: 0 auto;
+  }
+
+  .signup-copy {
+    max-width: 620px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .signup-form {
+    width: 100%;
+    max-width: 430px;
+    margin: 0 auto;
+  }
+
+  /* Stop tablet sideways movement */
+
+  .chart-result,
+  .properties-section,
+  .chart-guide-signup,{
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .properties-section {
+    transform: none;
+    overflow-x: hidden;
+  }
+
+  .chart-guide-signup {
+    overflow-x: hidden;
+  }
+
+}
+
+
+
+  @media (max-width: 900px) {
+   .chart-result {
+    width: 100%;
+    padding-inline: clamp(0.75rem, 4vw, 2rem);
+    overflow-x: hidden;
+  }
+
+  .chart-layout {
+    grid-template-columns: 1fr 2.5fr 1fr;
+    gap: clamp(0.4rem, 2vw, 1rem);
+  }
+
+   .bodygraph {
+    padding: 0;
+    min-height: auto;
+  }
+
+  .bodygraph svg {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .chart-guide-signup {
+    width: 100%;
+    padding: clamp(2rem, 5vw, 3rem);
+    margin-top: clamp(2rem, 5vw, 3rem);
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .panel {
+    padding: clamp(0.4rem, 1.5vw, 1rem);
+  }
+
+  .planet-row {
+    grid-template-columns: 1.8em 1fr;
+    font-size: clamp(0.75rem, 2vw, 1rem);
+    margin-bottom: clamp(0.35rem, 1.5vw, 0.8rem);
+  }
+
+  .planet-symbol {
+    font-size: clamp(1rem, 3vw, 1.4rem);
+  }
+
+  /* Properties */
+
+  .properties-section {
+    transform: none;
+    width: 100%;
+    max-width: 100%;
+    margin: clamp(1.5rem, 4vw, 2.5rem) auto 0 auto;
+  }
+
+  .properties-two-column {
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(1rem, 4vw, 3rem);
+  }
+
+  .property-row,
+  .properties-two-column > div:nth-child(2) .property-row {
+    grid-template-columns: minmax(7rem, 35%) 1fr;
+    column-gap: clamp(0.5rem, 2vw, 1rem);
+    margin-bottom: clamp(0.75rem, 2vw, 1.1rem);
+  }
+
+  .property-label,
+  .property-value {
+    font-size: clamp(0.8rem, 1.8vw, 1rem);
+  }
+
+
+  .signup-content {
+    grid-template-columns: 1fr;
+    gap: clamp(2rem, 5vw, 3rem);
+    margin-top: 0;
+  }
+
+  .signup-image img {
+    width: min(100%, 520px);
+    height: auto;
+    margin: 0 auto;
+  }
+
+  .signup-copy {
+    max-width: 620px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .signup-title {
+   font-size: clamp(1.5rem, 5vw, 2rem);
+    line-height: 1.2;
+     max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 24px; 
+  }
+
+
+  .signup-subtitle {
+    font-size: clamp(1.35rem, 4.5vw, 1.8rem);
+    line-height: 1.2;
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 30px; 
+  }
+
+  .signup-intro {
+    max-width: 100%;
+    font-size: clamp(1.35rem, 3vw, 2rem);
+    line-height: 1.25;
+    margin: 0 auto clamp(1.5rem, 3vw, 2rem) auto;
+  }
+
+  .signup-description {
+    max-width: 100%;
+    font-size: clamp(1.15rem, 2.4vw, 1.7rem);
+    line-height: 1.3;
+    margin: 0 auto clamp(1.5rem, 3vw, 2rem) auto;
+  }
+
+  .signup-form {
+    width: 100%;
+    max-width: 430px;
+    margin: 0 auto;
+  }
+ }
+
+
+/*--------------------------------
+  PHONE STYLES
+--------------------------------*/
+
+@media (max-width: 600px) {
+
+  .chart-result {
+    padding: 16px 12px;
+  }
+
+  .chart-layout {
+    grid-template-columns: 0.75fr 2.8fr 0.75fr;
+    gap: 4px;
+  }
+
+  .panel {
+    padding: 6px 2px;
+  }
+
+  .panel h3 {
+    font-size: 14px;
+    margin-bottom: 14px;
+  }
+
+  .planet-row {
+    grid-template-columns: 18px 1fr;
+    font-size: 11px;
+    margin-bottom: 7px;
+  }
+
+  .planet-symbol {
+    font-size: 14px;
+  }
+
+  .bodygraph {
+    padding: 0;
+  }
+
+
+  .bodygraph svg {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .properties-section {
+    margin-top: 24px;
+  }
+
+  .properties-two-column {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .property-row,
+  .properties-two-column > div:nth-child(2) .property-row {
+    grid-template-columns: 125px 1fr;
+    column-gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .property-label,
+  .property-value {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+ }
+
+
+</style>
+
+  <%#--------------------------------
+    PAGE TITLE CARD
+---------------------------------%>
+<div class="chart-title-card">
+  <h1 class="chart-title">Your Human Design Chart</h1>
+</div>
+
+<%#--------------------------------
+    PLANET SYMBOL LOOKUP
+---------------------------------%>
+
+<%
+  planet_symbols = {
+    "Sun" => "☉",
+    "Earth" => "⊕",
+    "Moon" => "☽",
+    "Mercury" => "☿",
+    "Venus" => "♀",
+    "Mars" => "♂",
+    "Jupiter" => "♃",
+    "Saturn" => "♄",
+    "Uranus" => "♅",
+    "Neptune" => "♆",
+    "Pluto" => "♇",
+    "North Node" => "☊",
+    "South Node" => "☋"
+  }
+%>
+<%#--------------------------------
+    MAIN CHART
+---------------------------------%>
+
+<div class="chart-result">
+
+  <div class="chart-layout">
+
+
+<section class="panel design-panel">
+
+    <h3>Design</h3>
+
+    <% @chart[:design_planets].each do |planet, gate_line| %>
+        <div class="planet-row">
+          <span class="planet-symbol">
+            <%= planet_symbols[planet] || planet %>
+          </span>
+          <span>
+            <%= gate_line %>
+          </span>
+        </div>
+      <% end %>
+
+    </section>
+
+    <section class="bodygraph">
+      <%= @chart[:svg].html_safe %>
+    </section>
+
+    <section class="panel personality-panel">
+
+    <h3>Personality</h3>
+
+    <% @chart[:personality_planets].each do |planet, gate_line| %>
+    <div class="planet-row">
+      <span class="planet-symbol">
+       <%= planet_symbols[planet] || planet %>
+     </span>
+     <span>
+       <%= gate_line %>
+     </span>
+      </div>
+    <% end %>
+
+    </section>
+  </div>
+
+<%#--------------------------------
+    CHART PROPERTIES
+---------------------------------%>
+
+<section class="properties-section">
+
+  <div class="properties-two-column">
+  <div>
+    <div class="property-row">
+      <span class="property-label">Name</span>
+      <span class="property-value"><%= @name %></span>
+   </div>
+ 
+      <div class="property-row">
+        <span class="property-label">Type</span>
+        <span class="property-value"><%= @chart[:type] %></span>
+      </div>
+
+      <div class="property-row">
+        <span class="property-label">Strategy</span>
+        <span class="property-value"><%= @chart[:strategy] %></span>
+      </div>
+
+      <div class="property-row">
+        <span class="property-label">Authority</span>
+        <span class="property-value"><%= @chart[:authority] %></span>
+      </div>
+    </div>
+
+    <div>
+      <div class="property-row">
+        <span class="property-label">Definition</span>
+        <span class="property-value"><%= @chart[:definition] %></span>
+      </div>
+
+      <div class="property-row">
+        <span class="property-label">Profile</span>
+        <span class="property-value"><%= @chart[:profile] %></span>
+      </div>
+
+      <div class="property-row">
+        <span class="property-label">Not-Self Theme</span>
+        <span class="property-value"><%= @chart[:not_self] %></span>
+      </div>
+
+        <div class="property-row">
+          <span class="property-label">Signature</span>
+          <span class="property-value"><%= @chart[:signature] %></span>
+        </div>
+    </div>
+  </div>
+
+      <div class="property-row">
+        <span class="property-label">Incarnation Cross</span>
+       <span class="property-value"><%= @chart[:cross] %></span>
+  </div>
+
+  <div class="property-row">
+       <span class="property-label">Birth Data</span>
+       <span class="property-value">
+       <%= @date %> • <%= @time %> • <%= @place %>
+     </span>
+   </div>
+
+  
+</section>
+<%#--------------------------------
+    GUIDE SIGNUP
+---------------------------------%>
+
+
+<section class="chart-guide-signup">
+
+  <h2 class="signup-title">
+    Would you like to understand your Human Design chart?
+  </h2>
+
+  <h3 class="signup-subtitle">
+    Get your FREE Guide to understanding your chart
+  </h3>
+
+  <div class="signup-content">
+
+
+<div class="signup-image">
+  <%= image_tag "free-chart-guide-cover.png",
+      alt: "Free Human Design Guide" %>
+</div>
+
+    <div class="signup-copy">
+      <p class="signup-intro">
+        Now that you have your chart, this guide will help you make sense of it.
+      </p>
+
+      <p class="signup-description">
+        Your chart is a map — but this guide helps you read it. It walks you through the key parts of your design — your Strategy, Authority, and energy type — so you can begin to make sense of what your chart reveals about how you’re meant   to move through life.
+        </p>
+
+        <div class="signup-form">
+          <div class="ml-embedded" data-form="yBOM7y"></div>
+        </div>
+
+      </div>
+
+    </div>
+
+</div>
