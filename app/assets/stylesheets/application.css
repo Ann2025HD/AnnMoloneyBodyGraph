@@ -346,6 +346,39 @@
     margin: 0 auto;
   }
 
+  .signup-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+
+  .signup-form input {
+    width: 100%;
+    padding: 16px 18px;
+    font-size: 18px;
+    border: 1px solid #c8c8c8;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+
+  .signup-form button {
+    width: 100%;
+    padding: 16px 20px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    background-color: #7198b6;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+
+  .signup-form button:hover {
+    background-color: #5f839f;
+  }
+
   /*--------------------------------
     # RESPONSIVE STYLES
    --------------------------------*/
