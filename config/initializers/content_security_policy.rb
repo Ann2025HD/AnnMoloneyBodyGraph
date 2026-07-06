@@ -8,10 +8,10 @@ if Rails.env.production?
     maps = ["https://maps.googleapis.com", "https://maps.gstatic.com"]
     cdns = ["https://polyfill.io", "https://unpkg.com", "https://assets.mailerlite.com"]
 
-    p.script_src :self, :https, :unsafe_inline, *maps, *cdns
+    p.script_src  :self, :https, :unsafe_inline, *maps, *cdns
     p.connect_src :self, :https, *maps, "https://unpkg.com", "https://assets.mailerlite.com"
     p.img_src     :self, :https, :data, *maps
-    p.style_src   :self, :https, "https://fonts.googleapis.com", :unsafe_inline
+    p.style_src   :self, :https, :unsafe_inline, "https://fonts.googleapis.com"
     p.font_src    :self, :https, :data, "https://fonts.gstatic.com"
     p.frame_src :self, :https, "https://assets.mailerlite.com"
     # Allow your WordPress site to embed this app (iframe)
