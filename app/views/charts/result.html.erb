@@ -176,9 +176,16 @@
 <%#--------------------------------
     MAILERLITE
 ---------------------------------%>
+
+
+
    <div class="signup-form">
-    <form class="ml-block-form" action="https://assets.mailerlite.com/jsonp/1270515/forms/170060695284483242/subscribe" method="post" target="_blank">
-    
+     <form class="ml-block-form"
+       action="https://assets.mailerlite.com/jsonp/1270515/forms/170060695284483242/subscribe"
+       method="post"
+       target="ml_hidden_iframe"
+       onsubmit="setTimeout(function(){ window.location.href='https://annmoloney.com/free-chart-thank-you/'; }, 800);">    
+
       <input 
         type="text" 
         name="fields[name]" 
@@ -196,9 +203,9 @@
       <input type="hidden" name="anticsrf" value="true">
 
       <button type="submit">Get Your Free Guide</button>
-    </form>
-     </div>
-
+     </form>
+     <iframe name="ml_hidden_iframe" style="display:none;"></iframe>
     </div>
 
+  </div>
 </div>
